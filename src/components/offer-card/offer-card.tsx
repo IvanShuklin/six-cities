@@ -1,4 +1,4 @@
-function CitiCard(): JSX.Element {
+function OfferCard(): JSX.Element {
   return (
     <article className="cities__card place-card">
       <div className="place-card__mark">
@@ -54,4 +54,4 @@ function CitiCard(): JSX.Element {
   );
 }
 
-export default CitiCard;
+export default OfferCard;

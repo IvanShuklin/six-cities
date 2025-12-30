@@ -1,4 +1,4 @@
-import CitiCard from '../../components/card/citi-card';
+import OfferCard from '../../components/offer-card/offer-card';
 
 type MainPageProps = {
   offersAmount: number;
@@ -115,7 +115,11 @@ function MainPage({offersAmount}: MainPageProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <CitiCard />
+                <OfferCard />
+                <OfferCard />
+                <OfferCard />
+                <OfferCard />
+                <OfferCard />
               </div>
             </section>
             <div className="cities__right-section">
