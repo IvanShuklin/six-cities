@@ -4,7 +4,7 @@ type AppScreenProps = {
   offersAmount: number;
 }
 
-export default function App({offersAmount}: AppScreenProps): JSX.Element {
+export default function App({offersAmount}: AppScreenProps) {
   return (
     <MainPage offersAmount={offersAmount} />
   );

@@ -1,7 +1,7 @@
-import { SORTING_OPTIONS } from '../../const';
+import { SORTING_OPTIONS } from '../../../../const';
 
-export default function PlacesSorting(): JSX.Element {
-  const currentOption = SORTING_OPTIONS[0];
+export default function PlacesSorting() {
+  const currentOption = SORTING_OPTIONS.POPULAR;
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -15,7 +15,7 @@ export default function PlacesSorting(): JSX.Element {
       </span>
 
       <ul className="places__options places__options--custom">
-        {SORTING_OPTIONS.map((option) => (
+        {Object.values(SORTING_OPTIONS).map((option) => (
           <li
             key={option}
             className="places__option"

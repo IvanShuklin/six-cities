@@ -1,6 +1,6 @@
 import Header from '../../components/layout/header/header';
 
-export default function LoginPage(): JSX.Element {
+export default function LoginPage() {
   return (
     <div className="page page--gray page--login">
       <Header />

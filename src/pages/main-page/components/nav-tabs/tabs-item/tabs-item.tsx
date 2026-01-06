@@ -2,7 +2,7 @@ type TabItemProps = {
   city: string;
 };
 
-export default function TabsItem({ city }: TabItemProps): JSX.Element {
+export default function TabsItem({ city }: TabItemProps) {
   return (
     <li className="locations__item">
       <a className="locations__item-link tabs__item" href="#">

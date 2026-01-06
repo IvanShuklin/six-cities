@@ -1,13 +1,13 @@
 import Header from '../../components/layout/header/header';
 import OfferCard from '../../components/offer-card/offer-card';
-import NavTabs from '../../components/nav-tabs/nav-tabs';
-import PlacesSorting from '../../components/places-sorting/places-sorting';
+import NavTabs from './components/nav-tabs/nav-tabs';
+import PlacesSorting from './components/places-sorting/places-sorting';
 
 type MainPageProps = {
   offersAmount: number;
 }
 
-export default function MainPage({offersAmount}: MainPageProps): JSX.Element {
+export default function MainPage({offersAmount}: MainPageProps) {
   return (
     <div className="page page--gray page--main">
       <Header />
