@@ -35,7 +35,7 @@ export const Settings = {
 } as const;
 
 export enum AppRoute {
-  Root = '/',
+  Main = '/',
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer/:id',
