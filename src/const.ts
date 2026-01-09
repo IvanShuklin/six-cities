@@ -33,3 +33,11 @@ export type SortOption =
 export const Settings = {
   OffersAmount: 5
 } as const;
+
+export enum AppRoute {
+  Main = '/',
+  Login = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer/:id',
+  NotFound = '*',
+}
