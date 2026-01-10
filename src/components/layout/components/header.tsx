@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute } from '../../../const';
+import Logo from '../../logo/logo';
 
 export default function Header() {
   return (
@@ -7,18 +8,12 @@ export default function Header() {
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Link
-              to={AppRoute.Main}
-              className="header__logo-link"
-            >
-              <img
-                className="header__logo"
-                src="img/logo.svg"
-                alt="6 cities logo"
-                width={81}
-                height={41}
-              />
-            </Link>
+            <Logo
+              classNameLink="header__logo-link"
+              classNameImage="header__logo"
+              width={81}
+              height={41}
+            />
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">
