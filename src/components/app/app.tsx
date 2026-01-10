@@ -1,6 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus } from '../../const.ts';
-import AppLayout from '../layout/layout.tsx';
+import MainLayout from '../layout/main-layout/main-layout.tsx';
+import LoginLayout from '../layout/login-layout/login-layout.tsx';
+import FavoritesLayout from '../layout/favorites-layout/favorites-layout.tsx';
 import MainPage from '../../pages/main-page/main-page.tsx';
 import LoginPage from '../../pages/login-page/login-page.tsx';
 import FavoritesPage from '../../pages/favorites-page/favorites-page.tsx';
@@ -14,23 +17,29 @@ type AppScreenProps = {
 
 export default function App({offersAmount}: AppScreenProps) {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<AppLayout />}>
-          <Route path={AppRoute.Main} element={<MainPage offersAmount={offersAmount} />}/>
-          <Route path={AppRoute.Login} element={<LoginPage />}/>
-          <Route
-            path={AppRoute.Favorites}
-            element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-                <FavoritesPage />
-              </PrivateRoute>
-            }
-          />
-          <Route path={AppRoute.Offer} element={<OfferPage />}/>
-          <Route path={'*'} element={<NotFoundPage />}/>
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route path={'/'} element={<MainPage offersAmount={offersAmount} />}/>
+            <Route path={AppRoute.Offer} element={<OfferPage />}/>
+            <Route path={'*'} element={<NotFoundPage />}/>
+          </Route>
+          <Route element={<LoginLayout />}>
+            <Route path={AppRoute.Login} element={<LoginPage />}/>
+          </Route>
+          <Route element={<FavoritesLayout />}>
+            <Route
+              path={AppRoute.Favorites}
+              element={
+                <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+                  <FavoritesPage />
+                </PrivateRoute>
+              }
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
