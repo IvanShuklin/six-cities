@@ -23,7 +23,6 @@ export default function App({offersAmount}: AppScreenProps) {
           <Route element={<MainLayout />}>
             <Route path={'/'} element={<MainPage offersAmount={offersAmount} />}/>
             <Route path={AppRoute.Offer} element={<OfferPage />}/>
-            <Route path={'*'} element={<NotFoundPage />}/>
           </Route>
           <Route element={<LoginLayout />}>
             <Route path={AppRoute.Login} element={<LoginPage />}/>
@@ -38,6 +37,7 @@ export default function App({offersAmount}: AppScreenProps) {
               }
             />
           </Route>
+          <Route path={'*'} element={<NotFoundPage />}/>
         </Routes>
       </BrowserRouter>
     </HelmetProvider>
