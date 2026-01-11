@@ -3,15 +3,14 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 
 type PrivateRouteProps = {
   authorizationStatus: AuthorizationStatus;
+  isReverse?: boolean;
   children: JSX.Element;
 }
 
-export default function PrivateRoute(props: PrivateRouteProps) {
-  const {authorizationStatus, children} = props;
-
+export default function PrivateRoute({authorizationStatus, isReverse, children}: PrivateRouteProps) {
   return (
-    authorizationStatus === AuthorizationStatus.Auth
+    authorizationStatus === (isReverse ? AuthorizationStatus.NoAuth : AuthorizationStatus.Auth)
       ? children
-      : <Navigate to={AppRoute.Login} />
+      : <Navigate to={isReverse ? AppRoute.Main : AppRoute.Login} />
   );
 }

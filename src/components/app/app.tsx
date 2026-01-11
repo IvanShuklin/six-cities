@@ -27,13 +27,20 @@ export default function App({offersAmount}: AppProps) {
             <Route path={AppRoute.Offer} element={<OfferPage />}/>
           </Route>
           <Route element={<LoginLayout authorizationStatus={authorizationStatus} />}>
-            <Route path={AppRoute.Login} element={<LoginPage />}/>
+            <Route
+              path={AppRoute.Login}
+              element={
+                <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
+                  <LoginPage />
+                </PrivateRoute>
+              }
+            />
           </Route>
           <Route element={<FavoritesLayout authorizationStatus={authorizationStatus} />}>
             <Route
               path={AppRoute.Favorites}
               element={
-                <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+                <PrivateRoute authorizationStatus={authorizationStatus}>
                   <FavoritesPage />
                 </PrivateRoute>
               }

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../../const';
-import Logo from '../../logo/logo';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import Logo from '../logo/logo';
 
 type HeaderProps = {
   authorizationStatus: AuthorizationStatus;

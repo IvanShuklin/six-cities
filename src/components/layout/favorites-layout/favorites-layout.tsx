@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { AuthorizationStatus } from '../../../const';
-import Header from '../header/header';
+import Header from '../../header/header';
 
 type FavoritesLayoutProps = {
   authorizationStatus: AuthorizationStatus;
