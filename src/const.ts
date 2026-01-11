@@ -46,3 +46,11 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export enum PageTitle {
+  Main = '6 Cities',
+  Login = '6 Cities. Authorization',
+  Favorites = '6 Cities. Favorites',
+  Offer = '6 Cities. Offer',
+  NotFound = '6 Cities. Page not found',
+}

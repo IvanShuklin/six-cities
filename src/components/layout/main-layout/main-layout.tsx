@@ -1,10 +1,15 @@
 import { Outlet } from 'react-router-dom';
-import Header from '../components/header';
+import { AuthorizationStatus } from '../../../const';
+import Header from '../header/header';
 
-export default function MainLayout() {
+type MainLayoutProps = {
+  authorizationStatus: AuthorizationStatus;
+};
+
+export default function MainLayout({ authorizationStatus }: MainLayoutProps) {
   return (
     <div className="page page--gray page--main">
-      <Header />
+      <Header authorizationStatus={authorizationStatus} />
       <Outlet />
     </div>
   );

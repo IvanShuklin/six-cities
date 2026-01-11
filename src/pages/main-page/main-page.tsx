@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import { PageTitle } from '../../const';
 import OfferCard from '../../components/offer-card/offer-card';
 import NavTabs from './components/nav-tabs/nav-tabs';
 import PlacesSorting from './components/places-sorting/places-sorting';
@@ -11,7 +12,7 @@ export default function MainPage({offersAmount}: MainPageProps) {
   return (
     <>
       <Helmet>
-        <title>6 Cities</title>
+        <title>{PageTitle.Main}</title>
       </Helmet>
 
       <main className="page__main page__main--index">

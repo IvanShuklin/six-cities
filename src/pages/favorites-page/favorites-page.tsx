@@ -1,11 +1,12 @@
 import { Helmet } from 'react-helmet-async';
+import { PageTitle } from '../../const';
 import Footer from './components/footer/footer';
 
 export default function FavoritesPage() {
   return (
     <>
       <Helmet>
-        <title>6 Cities. Favorites</title>
+        <title>{PageTitle.Favorites}</title>
       </Helmet>
 
       <main className="page__main page__main--favorites page__main--favorites-empty">

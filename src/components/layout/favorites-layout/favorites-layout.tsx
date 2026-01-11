@@ -1,12 +1,16 @@
 import { Outlet } from 'react-router-dom';
-import Header from '../components/header';
+import { AuthorizationStatus } from '../../../const';
+import Header from '../header/header';
 
-export default function FavoritesLayout() {
+type FavoritesLayoutProps = {
+  authorizationStatus: AuthorizationStatus;
+};
+
+export default function FavoritesLayout({ authorizationStatus }: FavoritesLayoutProps) {
   return (
     <div className="page page--favorites-empty">
-      <Header />
+      <Header authorizationStatus={authorizationStatus} />
       <Outlet />
     </div>
   );
 }
-

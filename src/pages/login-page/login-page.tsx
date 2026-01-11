@@ -1,10 +1,11 @@
 import { Helmet } from 'react-helmet-async';
+import { PageTitle } from '../../const';
 
 export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title>6 Cities. Authorization</title>
+        <title>{PageTitle.Login}</title>
       </Helmet>
 
       <main className="page__main page__main--login">

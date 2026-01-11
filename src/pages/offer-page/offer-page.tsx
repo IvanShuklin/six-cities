@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { OFFER_FEATURES } from '../../const';
+import { OFFER_FEATURES, PageTitle } from '../../const';
 
 const ListItem = ({ offer }: { offer: string }) => (
   <li className="offer__inside-item">{offer}</li>
@@ -11,7 +11,7 @@ export default function OfferPage() {
   return (
     <>
       <Helmet>
-        <title>6 Cities. Offers</title>
+        <title>{PageTitle.Offer}</title>
       </Helmet>
 
       <main className="page__main page__main--offer">
