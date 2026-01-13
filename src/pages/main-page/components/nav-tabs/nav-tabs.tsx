@@ -1,7 +1,7 @@
 import TabsItem from './tabs-item/tabs-item';
-import { CITIES } from '../../const';
+import { CITIES } from '../../../../const';
 
-export default function NavTabs(): JSX.Element {
+export default function NavTabs() {
   return (
     <div className="tabs">
       <section className="locations container">

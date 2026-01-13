@@ -1,16 +1,19 @@
-import Header from '../../components/layout/header/header';
+import { Helmet } from 'react-helmet-async';
+import { PageTitle } from '../../const';
 import OfferCard from '../../components/offer-card/offer-card';
-import NavTabs from '../../components/nav-tabs/nav-tabs';
-import PlacesSorting from '../../components/places-sorting/places-sorting';
+import NavTabs from './components/nav-tabs/nav-tabs';
+import PlacesSorting from './components/places-sorting/places-sorting';
 
 type MainPageProps = {
   offersAmount: number;
 }
 
-export default function MainPage({offersAmount}: MainPageProps): JSX.Element {
+export default function MainPage({offersAmount}: MainPageProps) {
   return (
-    <div className="page page--gray page--main">
-      <Header />
+    <>
+      <Helmet>
+        <title>{PageTitle.Main}</title>
+      </Helmet>
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
@@ -35,6 +38,6 @@ export default function MainPage({offersAmount}: MainPageProps): JSX.Element {
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }

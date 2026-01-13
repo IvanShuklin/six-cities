@@ -1,9 +1,18 @@
-import Header from '../../components/layout/header/header';
+import { Helmet } from 'react-helmet-async';
+import { OFFER_FEATURES, PageTitle } from '../../const';
 
-export default function OfferPage(): JSX.Element {
+const ListItem = ({ offer }: { offer: string }) => (
+  <li className="offer__inside-item">{offer}</li>
+);
+
+const offers: string[] = OFFER_FEATURES;
+
+export default function OfferPage() {
   return (
-    <div className="page">
-      <Header />
+    <>
+      <Helmet>
+        <title>{PageTitle.Offer}</title>
+      </Helmet>
 
       <main className="page__main page__main--offer">
         <section className="offer">
@@ -92,16 +101,9 @@ export default function OfferPage(): JSX.Element {
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  <li className="offer__inside-item">Wi-Fi</li>
-                  <li className="offer__inside-item">Washing machine</li>
-                  <li className="offer__inside-item">Towels</li>
-                  <li className="offer__inside-item">Heating</li>
-                  <li className="offer__inside-item">Coffee machine</li>
-                  <li className="offer__inside-item">Baby seat</li>
-                  <li className="offer__inside-item">Kitchen</li>
-                  <li className="offer__inside-item">Dishwasher</li>
-                  <li className="offer__inside-item">Cabel TV</li>
-                  <li className="offer__inside-item">Fridge</li>
+                  {offers.map((offer) => (
+                    <ListItem key={offer} offer={offer} />
+                  ))}
                 </ul>
               </div>
               <div className="offer__host">
@@ -427,6 +429,6 @@ export default function OfferPage(): JSX.Element {
           </section>
         </div>
       </main>
-    </div>
+    </>
   );
 }

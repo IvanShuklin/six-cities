@@ -1,10 +1,13 @@
-import Header from '../../components/layout/header/header';
-import Footer from '../../components/layout/footer/footer';
+import { Helmet } from 'react-helmet-async';
+import { PageTitle } from '../../const';
+import Footer from './components/footer/footer';
 
-export default function FavoritesPage(): JSX.Element {
+export default function FavoritesPage() {
   return (
-    <div className="page">
-      <Header />
+    <>
+      <Helmet>
+        <title>{PageTitle.Favorites}</title>
+      </Helmet>
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
@@ -39,9 +42,7 @@ export default function FavoritesPage(): JSX.Element {
                       <div className="place-card__price-wrapper">
                         <div className="place-card__price">
                           <b className="place-card__price-value">€180</b>
-                          <span className="place-card__price-text">
-                        /&nbsp;night
-                          </span>
+                          <span className="place-card__price-text">/&nbsp;night</span>
                         </div>
                         <button
                           className="place-card__bookmark-button place-card__bookmark-button--active button"
@@ -85,9 +86,7 @@ export default function FavoritesPage(): JSX.Element {
                       <div className="place-card__price-wrapper">
                         <div className="place-card__price">
                           <b className="place-card__price-value">€80</b>
-                          <span className="place-card__price-text">
-                        /&nbsp;night
-                          </span>
+                          <span className="place-card__price-text">/&nbsp;night</span>
                         </div>
                         <button
                           className="place-card__bookmark-button place-card__bookmark-button--active button"
@@ -142,9 +141,7 @@ export default function FavoritesPage(): JSX.Element {
                       <div className="place-card__price-wrapper">
                         <div className="place-card__price">
                           <b className="place-card__price-value">€180</b>
-                          <span className="place-card__price-text">
-                        /&nbsp;night
-                          </span>
+                          <span className="place-card__price-text">/&nbsp;night</span>
                         </div>
                         <button
                           className="place-card__bookmark-button place-card__bookmark-button--active button"
@@ -180,6 +177,6 @@ export default function FavoritesPage(): JSX.Element {
       </main>
 
       <Footer />
-    </div>
+    </>
   );
 }

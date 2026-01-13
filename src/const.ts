@@ -1,0 +1,56 @@
+export const CITIES = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+];
+
+export const OFFER_FEATURES = [
+  'Wi-Fi',
+  'Washing machine',
+  'Towels',
+  'Heating',
+  'Coffee machine',
+  'Baby seat',
+  'Kitchen',
+  'Dishwasher',
+  'Cable TV',
+  'Fridge',
+];
+
+export const SORTING_OPTIONS = {
+  POPULAR: 'Popular',
+  PRICE_LOW_TO_HIGH: 'Price: low to high',
+  PRICE_HIGH_TO_LOW: 'Price: high to low',
+  TOP_RATED_FIRST: 'Top rated first',
+} as const;
+
+export type SortOption =
+  typeof SORTING_OPTIONS[keyof typeof SORTING_OPTIONS];
+
+export const Settings = {
+  OffersAmount: 5
+} as const;
+
+export enum AppRoute {
+  Main = '/',
+  Login = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer/:id',
+}
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
+export enum PageTitle {
+  Main = '6 Cities',
+  Login = '6 Cities. Authorization',
+  Favorites = '6 Cities. Favorites',
+  Offer = '6 Cities. Offer',
+  NotFound = '6 Cities. Page not found',
+}

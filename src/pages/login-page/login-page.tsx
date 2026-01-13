@@ -1,9 +1,12 @@
-import Header from '../../components/layout/header/header';
+import { Helmet } from 'react-helmet-async';
+import { PageTitle } from '../../const';
 
-export default function LoginPage(): JSX.Element {
+export default function LoginPage() {
   return (
-    <div className="page page--gray page--login">
-      <Header />
+    <>
+      <Helmet>
+        <title>{PageTitle.Login}</title>
+      </Helmet>
 
       <main className="page__main page__main--login">
         <div className="page__login-container container">
@@ -44,6 +47,6 @@ export default function LoginPage(): JSX.Element {
           </section>
         </div>
       </main>
-    </div>
+    </>
   );
 }
