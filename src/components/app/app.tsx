@@ -15,7 +15,7 @@ type AppProps = {
   offersAmount: number;
 }
 
-export default function App({offersAmount}: AppProps) {
+export default function App({ offersAmount }: AppProps) {
   const authorizationStatus = AuthorizationStatus.NoAuth;
 
   return (
@@ -23,19 +23,25 @@ export default function App({offersAmount}: AppProps) {
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout authorizationStatus={authorizationStatus} />}>
-            <Route path={'/'} element={<MainPage offersAmount={offersAmount} />}/>
-            <Route path={AppRoute.Offer} element={<OfferPage />}/>
+            <Route
+              path={AppRoute.Main}
+              element={<MainPage offersAmount={offersAmount} />}
+            />
+            <Route
+              path={AppRoute.Offer}
+              element={<OfferPage />}
+            />
           </Route>
+
           <Route element={<LoginLayout authorizationStatus={authorizationStatus} />}>
             <Route
               path={AppRoute.Login}
               element={
-                <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
-                  <LoginPage />
-                </PrivateRoute>
+                <LoginPage authorizationStatus={authorizationStatus} />
               }
             />
           </Route>
+
           <Route element={<FavoritesLayout authorizationStatus={authorizationStatus} />}>
             <Route
               path={AppRoute.Favorites}
@@ -46,7 +52,8 @@ export default function App({offersAmount}: AppProps) {
               }
             />
           </Route>
-          <Route path={'*'} element={<NotFoundPage />}/>
+
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </HelmetProvider>
