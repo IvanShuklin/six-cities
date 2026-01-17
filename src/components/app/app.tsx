@@ -16,7 +16,7 @@ type AppProps = {
 }
 
 export default function App({ offersAmount }: AppProps) {
-  const authorizationStatus = AuthorizationStatus.NoAuth;
+  const authorizationStatus = AuthorizationStatus.Auth;
 
   return (
     <HelmetProvider>
