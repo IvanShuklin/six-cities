@@ -30,12 +30,13 @@ export const SORTING_OPTIONS = {
 export type SortOption =
   typeof SORTING_OPTIONS[keyof typeof SORTING_OPTIONS];
 
-export enum AppRoute {
-  Main = '/',
-  Login = '/login',
-  Favorites = '/favorites',
-  Offer = '/offer/:id',
-}
+export const AppRoute = {
+  Main: '/',
+  Login: '/login',
+  Offer: '/offer',
+  Favorites: '/favorites',
+  NotFound: '*',
+} as const;
 
 export enum AuthorizationStatus {
   Auth = 'AUTH',

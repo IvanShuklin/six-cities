@@ -29,8 +29,8 @@ export default function App({ offers }: AppProps) {
               element={<MainPage offers={offers} />}
             />
             <Route
-              path={AppRoute.Offer}
-              element={<OfferPage />}
+              path={`${AppRoute.Offer}/:id`}
+              element={<OfferPage offers={offers} />}
             />
           </Route>
 
@@ -54,7 +54,7 @@ export default function App({ offers }: AppProps) {
             />
           </Route>
 
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path={AppRoute.NotFound} element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </HelmetProvider>
