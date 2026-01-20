@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus } from '../../const.ts';
+import { Offer } from '../../types/offer.ts';
 import MainLayout from '../layout/main-layout/main-layout.tsx';
 import LoginLayout from '../layout/login-layout/login-layout.tsx';
 import FavoritesLayout from '../layout/favorites-layout/favorites-layout.tsx';
@@ -12,10 +13,10 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
 
 type AppProps = {
-  offersAmount: number;
+  offers: Offer[];
 }
 
-export default function App({ offersAmount }: AppProps) {
+export default function App({ offers }: AppProps) {
   const authorizationStatus = AuthorizationStatus.Auth;
 
   return (
@@ -25,7 +26,7 @@ export default function App({ offersAmount }: AppProps) {
           <Route element={<MainLayout authorizationStatus={authorizationStatus} />}>
             <Route
               path={AppRoute.Main}
-              element={<MainPage offersAmount={offersAmount} />}
+              element={<MainPage offers={offers} />}
             />
             <Route
               path={AppRoute.Offer}

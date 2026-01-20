@@ -30,10 +30,6 @@ export const SORTING_OPTIONS = {
 export type SortOption =
   typeof SORTING_OPTIONS[keyof typeof SORTING_OPTIONS];
 
-export const Settings = {
-  OffersAmount: 5
-} as const;
-
 export enum AppRoute {
   Main = '/',
   Login = '/login',
