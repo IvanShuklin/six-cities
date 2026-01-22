@@ -20,6 +20,14 @@ export const OFFER_FEATURES = [
   'Fridge',
 ];
 
+export const OFFER_TYPE_LABEL = {
+  apartment: 'Apartment',
+  room: 'Room',
+  house: 'House',
+  hotel: 'Hotel',
+} as const;
+
+
 export const SORTING_OPTIONS = {
   POPULAR: 'Popular',
   PRICE_LOW_TO_HIGH: 'Price: low to high',

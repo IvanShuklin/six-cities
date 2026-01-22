@@ -1,15 +1,23 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
+import { OFFER_TYPE_LABEL } from '../../const';
 
 type OfferCardProps = {
   offer: Offer;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
 }
 
-export default function OfferCard({offer}: OfferCardProps) {
+export default function OfferCard({offer, onMouseEnter,
+  onMouseLeave}: OfferCardProps) {
   const ratingWidth = `${(offer.rating / 5) * 100}%`;
 
   return (
-    <article className="cities__card place-card">
+    <article
+      className="cities__card place-card"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
       {offer.isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
@@ -26,6 +34,7 @@ export default function OfferCard({offer}: OfferCardProps) {
           />
         </Link>
       </div>
+
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
@@ -48,6 +57,7 @@ export default function OfferCard({offer}: OfferCardProps) {
             <span className="visually-hidden">To bookmarks</span>
           </button>
         </div>
+
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
             <span style={{ width: ratingWidth }} />
@@ -60,7 +70,7 @@ export default function OfferCard({offer}: OfferCardProps) {
           </Link>
         </h2>
         <p className="place-card__type">
-          {offer.type.charAt(0).toUpperCase() + offer.type.slice(1)}
+          {OFFER_TYPE_LABEL[offer.type]}
         </p>
       </div>
     </article>

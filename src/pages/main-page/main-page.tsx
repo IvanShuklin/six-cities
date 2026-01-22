@@ -1,15 +1,19 @@
 import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
 import { PageTitle } from '../../const';
 import { Offer } from '../../types/offer';
 import OffersList from '../../components/offers-list/offers-list';
 import NavTabs from './components/nav-tabs/nav-tabs';
 import PlacesSorting from './components/places-sorting/places-sorting';
+import Map from '../../components/map/map';
 
 type MainPageProps = {
   offers: Offer[];
 }
 
 export default function MainPage({offers}: MainPageProps) {
+  const [activeOfferId, setActiveOfferId] = useState<number | null>(null);
+
   return (
     <>
       <Helmet>
@@ -27,10 +31,10 @@ export default function MainPage({offers}: MainPageProps) {
                 {offers.length} places to stay in Amsterdam
               </b>
               <PlacesSorting />
-              <OffersList offers={offers} />
+              <OffersList offers={offers} onActiveOfferChange={setActiveOfferId} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <Map activeOfferId={activeOfferId} />
             </div>
           </div>
         </div>
