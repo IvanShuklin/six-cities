@@ -1,6 +1,20 @@
+import { useState } from 'react';
+
 export default function ReviewForm() {
+  const [rating, setRating] = useState<number | null>(null);
+  const [comment, setComment] = useState('');
+
+  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    window.console.log({
+      rating,
+      comment,
+    });
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">
                 Your review
       </label>
@@ -8,9 +22,11 @@ export default function ReviewForm() {
         <input
           className="form__rating-input visually-hidden"
           name="rating"
-          defaultValue={5}
+          value={5}
           id="5-stars"
           type="radio"
+          checked={rating === 5}
+          onChange={() => setRating(5)}
         />
         <label
           htmlFor="5-stars"
@@ -24,9 +40,11 @@ export default function ReviewForm() {
         <input
           className="form__rating-input visually-hidden"
           name="rating"
-          defaultValue={4}
+          value={4}
           id="4-stars"
           type="radio"
+          checked={rating === 4}
+          onChange={() => setRating(4)}
         />
         <label
           htmlFor="4-stars"
@@ -40,9 +58,11 @@ export default function ReviewForm() {
         <input
           className="form__rating-input visually-hidden"
           name="rating"
-          defaultValue={3}
+          value={3}
           id="3-stars"
           type="radio"
+          checked={rating === 3}
+          onChange={() => setRating(3)}
         />
         <label
           htmlFor="3-stars"
@@ -56,9 +76,11 @@ export default function ReviewForm() {
         <input
           className="form__rating-input visually-hidden"
           name="rating"
-          defaultValue={2}
+          value={2}
           id="2-stars"
           type="radio"
+          checked={rating === 2}
+          onChange={() => setRating(2)}
         />
         <label
           htmlFor="2-stars"
@@ -72,9 +94,11 @@ export default function ReviewForm() {
         <input
           className="form__rating-input visually-hidden"
           name="rating"
-          defaultValue={1}
+          value={1}
           id="1-star"
           type="radio"
+          checked={rating === 1}
+          onChange={() => setRating(1)}
         />
         <label
           htmlFor="1-star"
@@ -91,7 +115,8 @@ export default function ReviewForm() {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        defaultValue={''}
+        value={comment}
+        onChange={(evt) => setComment(evt.target.value)}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
