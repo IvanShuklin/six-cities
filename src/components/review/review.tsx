@@ -1,11 +1,18 @@
+import { AuthorizationStatus } from '../../const';
 import ReviewList from '../review-list/review-list';
 import ReviewForm from '../review-form/review-form';
 
-export default function Review() {
+type ReviewProps = {
+  authorizationStatus: AuthorizationStatus;
+};
+
+export default function Review({ authorizationStatus }: ReviewProps) {
   return (
     <>
       <ReviewList/>
-      <ReviewForm/>
+      {authorizationStatus === AuthorizationStatus.Auth && (
+        <ReviewForm />
+      )}
     </>
   );
 }

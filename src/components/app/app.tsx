@@ -17,7 +17,7 @@ type AppProps = {
 }
 
 export default function App({ offers }: AppProps) {
-  const authorizationStatus = AuthorizationStatus.Auth;
+  const authorizationStatus = AuthorizationStatus.NoAuth;
 
   return (
     <HelmetProvider>
@@ -30,7 +30,7 @@ export default function App({ offers }: AppProps) {
             />
             <Route
               path={`${AppRoute.Offer}/:id`}
-              element={<OfferPage offers={offers} />}
+              element={<OfferPage offers={offers} authorizationStatus={authorizationStatus} />}
             />
           </Route>
 

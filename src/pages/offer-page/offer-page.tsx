@@ -1,14 +1,15 @@
 import { Helmet } from 'react-helmet-async';
 import { useParams, Navigate } from 'react-router-dom';
-import { AppRoute, PageTitle } from '../../const';
+import { AppRoute, PageTitle, AuthorizationStatus } from '../../const';
 import { Offer } from '../../types/offer';
 import Review from '../../components/review/review';
 
 type OfferPageProps = {
   offers: Offer[];
+  authorizationStatus: AuthorizationStatus;
 };
 
-export default function OfferPage({ offers }: OfferPageProps) {
+export default function OfferPage({ offers, authorizationStatus }: OfferPageProps) {
   const { id } = useParams<{ id: string }>();
 
   const currentOffer = offers.find(
@@ -129,7 +130,7 @@ export default function OfferPage({ offers }: OfferPageProps) {
               Reviews · <span className="reviews__amount">1</span>
                 </h2>
 
-                <Review/>
+                <Review authorizationStatus={authorizationStatus} />
 
               </section>
             </div>
