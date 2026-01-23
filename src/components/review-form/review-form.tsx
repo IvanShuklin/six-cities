@@ -1,8 +1,19 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
+
+const ratings = [
+  { value: 5, label: 'perfect' },
+  { value: 4, label: 'good' },
+  { value: 3, label: 'not bad' },
+  { value: 2, label: 'badly' },
+  { value: 1, label: 'terribly' },
+] as const;
 
 export default function ReviewForm() {
   const [rating, setRating] = useState<number | null>(null);
   const [comment, setComment] = useState('');
+
+  const isSubmitDisabled =
+  rating === null || comment.length < 50;
 
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -19,96 +30,30 @@ export default function ReviewForm() {
                 Your review
       </label>
       <div className="reviews__rating-form form__rating">
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value={5}
-          id="5-stars"
-          type="radio"
-          checked={rating === 5}
-          onChange={() => setRating(5)}
-        />
-        <label
-          htmlFor="5-stars"
-          className="reviews__rating-label form__rating-label"
-          title="perfect"
-        >
-          <svg className="form__star-image" width={37} height={33}>
-            <use xlinkHref="#icon-star" />
-          </svg>
-        </label>
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value={4}
-          id="4-stars"
-          type="radio"
-          checked={rating === 4}
-          onChange={() => setRating(4)}
-        />
-        <label
-          htmlFor="4-stars"
-          className="reviews__rating-label form__rating-label"
-          title="good"
-        >
-          <svg className="form__star-image" width={37} height={33}>
-            <use xlinkHref="#icon-star" />
-          </svg>
-        </label>
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value={3}
-          id="3-stars"
-          type="radio"
-          checked={rating === 3}
-          onChange={() => setRating(3)}
-        />
-        <label
-          htmlFor="3-stars"
-          className="reviews__rating-label form__rating-label"
-          title="not bad"
-        >
-          <svg className="form__star-image" width={37} height={33}>
-            <use xlinkHref="#icon-star" />
-          </svg>
-        </label>
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value={2}
-          id="2-stars"
-          type="radio"
-          checked={rating === 2}
-          onChange={() => setRating(2)}
-        />
-        <label
-          htmlFor="2-stars"
-          className="reviews__rating-label form__rating-label"
-          title="badly"
-        >
-          <svg className="form__star-image" width={37} height={33}>
-            <use xlinkHref="#icon-star" />
-          </svg>
-        </label>
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value={1}
-          id="1-star"
-          type="radio"
-          checked={rating === 1}
-          onChange={() => setRating(1)}
-        />
-        <label
-          htmlFor="1-star"
-          className="reviews__rating-label form__rating-label"
-          title="terribly"
-        >
-          <svg className="form__star-image" width={37} height={33}>
-            <use xlinkHref="#icon-star" />
-          </svg>
-        </label>
+
+        {ratings.map(({value, label}) => (
+          <Fragment key={value}>
+            <input
+              className="form__rating-input visually-hidden"
+              name="rating"
+              value={value}
+              id={`${value}-stars`}
+              type="radio"
+              checked={rating === value}
+              onChange={() => setRating(value)}
+            />
+            <label
+              htmlFor={`${value}-stars`}
+              className="reviews__rating-label form__rating-label"
+              title={label}
+            >
+              <svg className="form__star-image" width={37} height={33}>
+                <use xlinkHref="#icon-star" />
+              </svg>
+            </label>
+          </Fragment>
+        ))}
+
       </div>
       <textarea
         className="reviews__textarea form__textarea"
@@ -128,7 +73,7 @@ export default function ReviewForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled
+          disabled={isSubmitDisabled}
         >
                   Submit
         </button>
