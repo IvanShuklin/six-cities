@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus } from '../../const.ts';
+import { Offer } from '../../types/offer.ts';
 import MainLayout from '../layout/main-layout/main-layout.tsx';
 import LoginLayout from '../layout/login-layout/login-layout.tsx';
 import FavoritesLayout from '../layout/favorites-layout/favorites-layout.tsx';
@@ -12,41 +13,66 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
 
 type AppProps = {
-  offersAmount: number;
+  offers: Offer[];
 }
 
-export default function App({offersAmount}: AppProps) {
-  const authorizationStatus = AuthorizationStatus.NoAuth;
+export default function App({ offers }: AppProps) {
+  const authorizationStatus = AuthorizationStatus.Auth;
 
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route element={<MainLayout authorizationStatus={authorizationStatus} />}>
-            <Route path={'/'} element={<MainPage offersAmount={offersAmount} />}/>
-            <Route path={AppRoute.Offer} element={<OfferPage />}/>
+          <Route element={
+            <MainLayout
+              authorizationStatus={authorizationStatus}
+              offers={offers}
+            />
+          }
+          >
+            <Route
+              path={AppRoute.Main}
+              element={<MainPage offers={offers} />}
+            />
+            <Route
+              path={`${AppRoute.Offer}/:id`}
+              element={<OfferPage offers={offers} authorizationStatus={authorizationStatus} />}
+            />
           </Route>
-          <Route element={<LoginLayout authorizationStatus={authorizationStatus} />}>
+
+          <Route element={
+            <LoginLayout
+              authorizationStatus={authorizationStatus}
+              offers={offers}
+            />
+          }
+          >
             <Route
               path={AppRoute.Login}
               element={
-                <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
-                  <LoginPage />
-                </PrivateRoute>
+                <LoginPage authorizationStatus={authorizationStatus} />
               }
             />
           </Route>
-          <Route element={<FavoritesLayout authorizationStatus={authorizationStatus} />}>
+
+          <Route element={
+            <FavoritesLayout
+              authorizationStatus={authorizationStatus}
+              offers={offers}
+            />
+          }
+          >
             <Route
               path={AppRoute.Favorites}
               element={
                 <PrivateRoute authorizationStatus={authorizationStatus}>
-                  <FavoritesPage />
+                  <FavoritesPage offers={offers} />
                 </PrivateRoute>
               }
             />
           </Route>
-          <Route path={'*'} element={<NotFoundPage />}/>
+
+          <Route path={AppRoute.NotFound} element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </HelmetProvider>

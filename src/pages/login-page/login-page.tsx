@@ -1,7 +1,16 @@
+import { Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { PageTitle } from '../../const';
+import { AuthorizationStatus, AppRoute, PageTitle } from '../../const';
 
-export default function LoginPage() {
+type LoginPageProps = {
+  authorizationStatus: AuthorizationStatus;
+};
+
+export default function LoginPage({ authorizationStatus }: LoginPageProps) {
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    return <Navigate to={AppRoute.Main} replace />;
+  }
+
   return (
     <>
       <Helmet>
@@ -33,11 +42,15 @@ export default function LoginPage() {
                   required
                 />
               </div>
-              <button className="login__submit form__submit button" type="submit">
-            Sign in
+              <button
+                className="login__submit form__submit button"
+                type="submit"
+              >
+                Sign in
               </button>
             </form>
           </section>
+
           <section className="locations locations--login locations--current">
             <div className="locations__item">
               <a className="locations__item-link" href="#">

@@ -1,12 +1,16 @@
-import { Link } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AuthorizationStatus } from '../../const';
 import Logo from '../logo/logo';
+import AuthorizedMenu from './components/authorized-menu';
+import UnauthorizedMenu from './components/unauthorized-menu';
 
 type HeaderProps = {
   authorizationStatus: AuthorizationStatus;
+  favoritesCount: number;
 };
 
-export default function Header({ authorizationStatus }: HeaderProps) {
+export default function Header({ authorizationStatus, favoritesCount }: HeaderProps) {
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+
   return (
     <header className="header">
       <div className="container">
@@ -22,38 +26,13 @@ export default function Header({ authorizationStatus }: HeaderProps) {
 
           <nav className="header__nav">
             <ul className="header__nav-list">
-              {authorizationStatus === AuthorizationStatus.Auth ? (
-                <>
-                  <li className="header__nav-item user">
-                    <Link
-                      to={AppRoute.Favorites}
-                      className="header__nav-link header__nav-link--profile"
-                    >
-                      <div className="header__avatar-wrapper user__avatar-wrapper" />
-                      <span className="header__user-name user__name">
-                    oliver.conner@gmail.com
-                      </span>
-                      <span className="header__favorite-count">3</span>
-                    </Link>
-                  </li>
-                  <li className="header__nav-item">
-                    <Link
-                      to={AppRoute.Login}
-                      className="header__nav-link"
-                    >
-                      <span className="header__signout">Sign out</span>
-                    </Link>
-                  </li>
-                </>
+              {isAuth ? (
+                <AuthorizedMenu
+                  userEmail="oliver.conner@gmail.com"
+                  favoritesCount={favoritesCount}
+                />
               ) : (
-                <li className="header__nav-item">
-                  <Link
-                    to={AppRoute.Login}
-                    className="header__nav-link"
-                  >
-                    <span className="header__signout">Sign in</span>
-                  </Link>
-                </li>
+                <UnauthorizedMenu />
               )}
             </ul>
           </nav>

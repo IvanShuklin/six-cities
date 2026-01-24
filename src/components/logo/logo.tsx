@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 type LogoProps = {
   classNameLink: string;
@@ -15,7 +16,7 @@ export default function Logo({
 }: LogoProps) {
   return (
     <NavLink
-      to='/'
+      to={AppRoute.Main}
       end
       className={({ isActive }) =>
         isActive

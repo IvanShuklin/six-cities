@@ -1,14 +1,19 @@
 import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
 import { PageTitle } from '../../const';
-import OfferCard from '../../components/offer-card/offer-card';
+import { Offer } from '../../types/offer';
+import OffersList from '../../components/offers-list/offers-list';
 import NavTabs from './components/nav-tabs/nav-tabs';
 import PlacesSorting from './components/places-sorting/places-sorting';
+import Map from '../../components/map/map';
 
 type MainPageProps = {
-  offersAmount: number;
+  offers: Offer[];
 }
 
-export default function MainPage({offersAmount}: MainPageProps) {
+export default function MainPage({offers}: MainPageProps) {
+  const [activeOfferId, setActiveOfferId] = useState<number | null>(null);
+
   return (
     <>
       <Helmet>
@@ -22,18 +27,14 @@ export default function MainPage({offersAmount}: MainPageProps) {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersAmount} places to stay in Amsterdam</b>
+              <b className="places__found">
+                {offers.length} places to stay in Amsterdam
+              </b>
               <PlacesSorting />
-              <div className="cities__places-list places__list tabs__content">
-                <OfferCard />
-                <OfferCard />
-                <OfferCard />
-                <OfferCard />
-                <OfferCard />
-              </div>
+              <OffersList offers={offers} onActiveOfferChange={setActiveOfferId} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <Map activeOfferId={activeOfferId} />
             </div>
           </div>
         </div>

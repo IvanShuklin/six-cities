@@ -20,6 +20,14 @@ export const OFFER_FEATURES = [
   'Fridge',
 ];
 
+export const OFFER_TYPE_LABEL = {
+  apartment: 'Apartment',
+  room: 'Room',
+  house: 'House',
+  hotel: 'Hotel',
+} as const;
+
+
 export const SORTING_OPTIONS = {
   POPULAR: 'Popular',
   PRICE_LOW_TO_HIGH: 'Price: low to high',
@@ -30,16 +38,13 @@ export const SORTING_OPTIONS = {
 export type SortOption =
   typeof SORTING_OPTIONS[keyof typeof SORTING_OPTIONS];
 
-export const Settings = {
-  OffersAmount: 5
+export const AppRoute = {
+  Main: '/',
+  Login: '/login',
+  Offer: '/offer',
+  Favorites: '/favorites',
+  NotFound: '*',
 } as const;
-
-export enum AppRoute {
-  Main = '/',
-  Login = '/login',
-  Favorites = '/favorites',
-  Offer = '/offer/:id',
-}
 
 export enum AuthorizationStatus {
   Auth = 'AUTH',
