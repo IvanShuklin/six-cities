@@ -36,7 +36,7 @@ export const offers: Offer[] = [
 
     host: {
       name: 'Oliver Conner',
-      avatarUrl: 'markup/img/avatar-angelina.jpg',
+      avatarUrl: 'markup/img/avatar-max.jpg',
       isPro: false
     },
 
@@ -88,7 +88,7 @@ export const offers: Offer[] = [
 
     host: {
       name: 'Sofia Mills',
-      avatarUrl: 'markup/img/avatar-max.jpg',
+      avatarUrl: 'markup/img/avatar-angelina.jpg',
       isPro: true
     },
 
@@ -138,7 +138,7 @@ export const offers: Offer[] = [
 
     host: {
       name: 'Markus L.',
-      avatarUrl: 'markup/img/avatar-02.jpg',
+      avatarUrl: 'markup/img/avatar-max.jpg',
       isPro: false
     },
 
@@ -191,7 +191,7 @@ export const offers: Offer[] = [
 
     host: {
       name: 'Elena V.',
-      avatarUrl: 'markup/img/avatar-03.jpg',
+      avatarUrl: 'markup/img/avatar-angelina.jpg',
       isPro: true
     },
 
