@@ -5,9 +5,10 @@ import UnauthorizedMenu from './components/unauthorized-menu';
 
 type HeaderProps = {
   authorizationStatus: AuthorizationStatus;
+  favoritesCount: number;
 };
 
-export default function Header({ authorizationStatus }: HeaderProps) {
+export default function Header({ authorizationStatus, favoritesCount }: HeaderProps) {
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
 
   return (
@@ -28,7 +29,7 @@ export default function Header({ authorizationStatus }: HeaderProps) {
               {isAuth ? (
                 <AuthorizedMenu
                   userEmail="oliver.conner@gmail.com"
-                  favoritesCount={3}
+                  favoritesCount={favoritesCount}
                 />
               ) : (
                 <UnauthorizedMenu />

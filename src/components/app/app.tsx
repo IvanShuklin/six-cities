@@ -23,7 +23,13 @@ export default function App({ offers }: AppProps) {
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route element={<MainLayout authorizationStatus={authorizationStatus} />}>
+          <Route element={
+            <MainLayout
+              authorizationStatus={authorizationStatus}
+              offers={offers}
+            />
+          }
+          >
             <Route
               path={AppRoute.Main}
               element={<MainPage offers={offers} />}
@@ -34,7 +40,13 @@ export default function App({ offers }: AppProps) {
             />
           </Route>
 
-          <Route element={<LoginLayout authorizationStatus={authorizationStatus} />}>
+          <Route element={
+            <LoginLayout
+              authorizationStatus={authorizationStatus}
+              offers={offers}
+            />
+          }
+          >
             <Route
               path={AppRoute.Login}
               element={
@@ -43,12 +55,18 @@ export default function App({ offers }: AppProps) {
             />
           </Route>
 
-          <Route element={<FavoritesLayout authorizationStatus={authorizationStatus} />}>
+          <Route element={
+            <FavoritesLayout
+              authorizationStatus={authorizationStatus}
+              offers={offers}
+            />
+          }
+          >
             <Route
               path={AppRoute.Favorites}
               element={
                 <PrivateRoute authorizationStatus={authorizationStatus}>
-                  <FavoritesPage />
+                  <FavoritesPage offers={offers} />
                 </PrivateRoute>
               }
             />

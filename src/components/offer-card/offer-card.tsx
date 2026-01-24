@@ -12,6 +12,10 @@ export default function OfferCard({offer, onMouseEnter,
   onMouseLeave}: OfferCardProps) {
   const ratingWidth = `${(offer.rating / 5) * 100}%`;
 
+  const bookmarkButtonClassName = `place-card__bookmark-button button ${
+    offer.isFavorite ? 'place-card__bookmark-button--active' : ''
+  }`;
+
   return (
     <article
       className="cities__card place-card"
@@ -44,7 +48,7 @@ export default function OfferCard({offer, onMouseEnter,
             </span>
           </div>
           <button
-            className="place-card__bookmark-button button"
+            className={bookmarkButtonClassName}
             type="button"
           >
             <svg
@@ -54,7 +58,9 @@ export default function OfferCard({offer, onMouseEnter,
             >
               <use xlinkHref="#icon-bookmark" />
             </svg>
-            <span className="visually-hidden">To bookmarks</span>
+            <span className="visually-hidden">
+              {offer.isFavorite ? 'In bookmarks' : 'To bookmarks'}
+            </span>
           </button>
         </div>
 
