@@ -1,5 +1,5 @@
 type MapProps = {
-  activeOfferId: number | null;
+  activeOfferId: string | null;
 };
 
 export default function Map({ activeOfferId }: MapProps) {

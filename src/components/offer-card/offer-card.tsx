@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, generatePath } from 'react-router-dom';
 import { Offer } from '../../types/offer';
-import { OFFER_TYPE_LABEL } from '../../const';
+import { OFFER_TYPE_LABEL, AppRoute } from '../../const';
 
 type OfferCardProps = {
   offer: Offer;
@@ -28,7 +28,7 @@ export default function OfferCard({offer, onMouseEnter,
         </div>
       )}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`/offer/${offer.id}`}>
+        <Link to={generatePath(AppRoute.Offer, { id: offer.id })}>
           <img
             className="place-card__image"
             src={offer.previewImage}
@@ -71,7 +71,7 @@ export default function OfferCard({offer, onMouseEnter,
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${offer.id}`}>
+          <Link to={generatePath(AppRoute.Offer, { id: offer.id })}>
             {offer.title}
           </Link>
         </h2>

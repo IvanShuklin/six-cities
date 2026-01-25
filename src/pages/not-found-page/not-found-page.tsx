@@ -22,16 +22,7 @@ export default function NotFoundPage() {
         </p>
         <Link
           to={AppRoute.Main}
-          style={{
-            color: '#0000ee',
-            textDecoration: 'none',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.textDecoration = 'underline';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.textDecoration = 'none';
-          }}
+          className="not-found__link"
         >
           Back to main page
         </Link>

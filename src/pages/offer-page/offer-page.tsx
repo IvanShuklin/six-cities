@@ -13,7 +13,7 @@ export default function OfferPage({ offers, authorizationStatus }: OfferPageProp
   const { id } = useParams<{ id: string }>();
 
   const currentOffer = offers.find(
-    (offer) => offer.id === Number(id)
+    (offer) => offer.id === String(id)
   );
 
   if (!currentOffer) {

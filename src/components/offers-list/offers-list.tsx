@@ -3,7 +3,7 @@ import OfferCard from '../../components/offer-card/offer-card';
 
 type OffersListProps = {
   offers: Offer[];
-  onActiveOfferChange: (id: number | null) => void;
+  onActiveOfferChange: (id: string | null) => void;
 }
 
 export default function OffersList({ offers, onActiveOfferChange }: OffersListProps) {

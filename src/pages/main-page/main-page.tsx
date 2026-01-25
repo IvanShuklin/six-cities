@@ -12,7 +12,7 @@ type MainPageProps = {
 }
 
 export default function MainPage({offers}: MainPageProps) {
-  const [activeOfferId, setActiveOfferId] = useState<number | null>(null);
+  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
   return (
     <>

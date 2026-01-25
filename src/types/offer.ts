@@ -1,5 +1,5 @@
 export type Offer = {
-  id: number;
+  id: string;
   title: string;
   type: 'apartment' | 'room' | 'house' | 'hotel';
   price: number;

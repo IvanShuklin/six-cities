@@ -2,7 +2,7 @@ import { Offer } from '../types/offer';
 
 export const offers: Offer[] = [
   {
-    id: 1,
+    id: '1',
     title: 'Beautiful & luxurious studio at great location',
     type: 'apartment',
     price: 120,
@@ -61,7 +61,7 @@ export const offers: Offer[] = [
     },
   },
   {
-    id: 2,
+    id: '2',
     title: 'Light and modern apartment near the centre',
     type: 'apartment',
     price: 132,
@@ -113,7 +113,7 @@ export const offers: Offer[] = [
     }
   },
   {
-    id: 3,
+    id: '3',
     title: 'Cozy room in historical building',
     type: 'room',
     price: 80,
@@ -163,7 +163,7 @@ export const offers: Offer[] = [
     }
   },
   {
-    id: 4,
+    id: '4',
     title: 'Spacious house with canal view',
     type: 'house',
     price: 180,

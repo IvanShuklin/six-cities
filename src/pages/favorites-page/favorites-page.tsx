@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, generatePath } from 'react-router-dom';
 import { PageTitle, AppRoute } from '../../const';
 import { Offer } from '../../types/offer';
 import Footer from './components/footer/footer';
@@ -10,7 +10,7 @@ type FavoritesPageProps = {
 
 export default function FavoritesPage({ offers }: FavoritesPageProps) {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
-  const isEmpty = favoriteOffers.length === 0;
+  const isFavoriteOffersEmpty = favoriteOffers.length === 0;
 
   return (
     <>
@@ -20,9 +20,9 @@ export default function FavoritesPage({ offers }: FavoritesPageProps) {
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
-          <section className={`favorites ${isEmpty ? 'favorites--empty' : ''}`}>
+          <section className={`favorites ${isFavoriteOffersEmpty ? 'favorites--empty' : ''}`}>
             <h1 className="favorites__title">Saved listing</h1>
-            {!isEmpty ? (
+            {!isFavoriteOffersEmpty ? (
               <ul className="favorites__list">
                 {favoriteOffers.map((offer) => (
                   <li key={offer.id} className="favorites__locations-items">
@@ -35,7 +35,7 @@ export default function FavoritesPage({ offers }: FavoritesPageProps) {
                         )}
 
                         <div className="favorites__image-wrapper place-card__image-wrapper">
-                          <Link to={`${AppRoute.Offer}/${offer.id}`}>
+                          <Link to={generatePath(AppRoute.Offer, { id: offer.id })}>
                             <img
                               className="place-card__image"
                               src={offer.previewImage}
@@ -74,7 +74,7 @@ export default function FavoritesPage({ offers }: FavoritesPageProps) {
                           </div>
 
                           <h2 className="place-card__name">
-                            <Link to={`${AppRoute.Offer}/${offer.id}`}>
+                            <Link to={generatePath(AppRoute.Offer, { id: offer.id })}>
                               {offer.title}
                             </Link>
                           </h2>
