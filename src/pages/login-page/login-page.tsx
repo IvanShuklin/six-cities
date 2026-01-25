@@ -1,16 +1,7 @@
-import { Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { AuthorizationStatus, AppRoute, PageTitle } from '../../const';
+import { PageTitle } from '../../const';
 
-type LoginPageProps = {
-  authorizationStatus: AuthorizationStatus;
-};
-
-export default function LoginPage({ authorizationStatus }: LoginPageProps) {
-  if (authorizationStatus === AuthorizationStatus.Auth) {
-    return <Navigate to={AppRoute.Main} replace />;
-  }
-
+export default function LoginPage() {
   return (
     <>
       <Helmet>

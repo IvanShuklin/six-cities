@@ -11,13 +11,14 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page.tsx';
 import OfferPage from '../../pages/offer-page/offer-page.tsx';
 import NotFoundPage from '../../pages/not-found-page/not-found-page.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
+import PublicRoute from '../public-route/public-route.tsx';
 
 type AppProps = {
   offers: Offer[];
 }
 
 export default function App({ offers }: AppProps) {
-  const authorizationStatus = AuthorizationStatus.Auth;
+  const authorizationStatus = AuthorizationStatus.NoAuth;
 
   return (
     <HelmetProvider>
@@ -35,22 +36,18 @@ export default function App({ offers }: AppProps) {
               element={<MainPage offers={offers} />}
             />
             <Route
-              path={`${AppRoute.Offer}/:id`}
+              path={AppRoute.Offer}
               element={<OfferPage offers={offers} authorizationStatus={authorizationStatus} />}
             />
           </Route>
 
-          <Route element={
-            <LoginLayout
-              authorizationStatus={authorizationStatus}
-              offers={offers}
-            />
-          }
-          >
+          <Route element={<LoginLayout />}>
             <Route
               path={AppRoute.Login}
               element={
-                <LoginPage authorizationStatus={authorizationStatus} />
+                <PublicRoute authorizationStatus={authorizationStatus}>
+                  <LoginPage />
+                </PublicRoute>
               }
             />
           </Route>
