@@ -1,9 +1,7 @@
-import { HousingType } from './housing-type';
-
-export type Offer = {
+export type OfferDto = {
   id: string;
   title: string;
-  type: HousingType;
+  type: string;
   price: number;
   rating: number;
   isPremium: boolean;

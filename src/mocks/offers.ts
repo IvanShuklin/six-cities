@@ -1,10 +1,11 @@
+import { HousingType } from '../types/housing-type';
 import { Offer } from '../types/offer';
 
 export const offers: Offer[] = [
   {
     id: '1',
     title: 'Beautiful & luxurious studio at great location',
-    type: 'apartment',
+    type: HousingType.Apartment,
     price: 120,
     rating: 4.8,
     isPremium: true,
@@ -63,7 +64,7 @@ export const offers: Offer[] = [
   {
     id: '2',
     title: 'Light and modern apartment near the centre',
-    type: 'apartment',
+    type: HousingType.Apartment,
     price: 132,
     rating: 4.5,
     isPremium: false,
@@ -115,7 +116,7 @@ export const offers: Offer[] = [
   {
     id: '3',
     title: 'Cozy room in historical building',
-    type: 'room',
+    type: HousingType.Room,
     price: 80,
     rating: 4.2,
     isPremium: false,
@@ -165,7 +166,7 @@ export const offers: Offer[] = [
   {
     id: '4',
     title: 'Spacious house with canal view',
-    type: 'house',
+    type: HousingType.House,
     price: 180,
     rating: 5.0,
     isPremium: true,

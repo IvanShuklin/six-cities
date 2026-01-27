@@ -1,4 +1,4 @@
-import { Offer } from './types/offer';
+import { Offer } from '../types/offer';
 
 export const getFavoritesCount = (offers: Offer[]): number => offers.filter((offer) => offer.isFavorite).length;
 

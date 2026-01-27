@@ -1,5 +1,5 @@
 import { Comment } from '../../types/comment';
-import { formatReviewDate } from '../../util';
+import { formatReviewDate } from '../../utils/util';
 
 type ReviewListProps = {
   comments: Comment[];
