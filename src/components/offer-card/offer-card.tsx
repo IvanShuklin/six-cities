@@ -4,12 +4,10 @@ import { OFFER_TYPE_LABEL, AppRoute } from '../../const';
 
 type OfferCardProps = {
   offer: Offer;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
+  onActiveOfferChange: (offerId: string | null) => void;
 }
 
-export default function OfferCard({offer, onMouseEnter,
-  onMouseLeave}: OfferCardProps) {
+export default function OfferCard({offer, onActiveOfferChange}: OfferCardProps) {
   const ratingWidth = `${(offer.rating / 5) * 100}%`;
 
   const bookmarkButtonClassName = `place-card__bookmark-button button ${
@@ -19,8 +17,8 @@ export default function OfferCard({offer, onMouseEnter,
   return (
     <article
       className="cities__card place-card"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onMouseEnter={() => onActiveOfferChange(offer.id)}
+      onMouseLeave={() => onActiveOfferChange(null)}
     >
       {offer.isPremium && (
         <div className="place-card__mark">

@@ -1,4 +1,6 @@
 import { HousingType } from './housing-type';
+import { Location } from './location';
+import { City } from './city';
 
 export type Offer = {
   id: string;
@@ -25,18 +27,7 @@ export type Offer = {
 
   description: string[];
 
-  location: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
+  location: Location;
 
-  city: {
-    name: string;
-    location: {
-      latitude: number;
-      longitude: number;
-      zoom: number;
-    };
-  };
+  city: City;
 };

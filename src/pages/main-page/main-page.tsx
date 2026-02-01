@@ -34,7 +34,11 @@ export default function MainPage({offers}: MainPageProps) {
               <OffersList offers={offers} onActiveOfferChange={setActiveOfferId} />
             </section>
             <div className="cities__right-section">
-              <Map activeOfferId={activeOfferId} />
+              <Map
+                city={offers[0].city}
+                offers={offers}
+                activeOfferId={activeOfferId}
+              />
             </div>
           </div>
         </div>
