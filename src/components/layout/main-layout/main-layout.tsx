@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { AuthorizationStatus } from '../../../const';
 import { Offer } from '../../../types/offer';
-import { getFavoritesCount } from '../../../util';
+import { getFavoritesCount } from '../../../utils/util';
 import Header from '../../header/header';
 
 type MainLayoutProps = {

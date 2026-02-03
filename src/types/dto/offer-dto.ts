@@ -1,11 +1,7 @@
-import { HousingType } from './housing-type';
-import { Location } from './location';
-import { City } from './city';
-
-export type Offer = {
+export type OfferDto = {
   id: string;
   title: string;
-  type: HousingType;
+  type: string;
   price: number;
   rating: number;
   isPremium: boolean;
@@ -27,7 +23,18 @@ export type Offer = {
 
   description: string[];
 
-  location: Location;
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
 
-  city: City;
+  city: {
+    name: string;
+    location: {
+      latitude: number;
+      longitude: number;
+      zoom: number;
+    };
+  };
 };

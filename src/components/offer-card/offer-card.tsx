@@ -1,15 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, generatePath } from 'react-router-dom';
 import { Offer } from '../../types/offer';
-import { OFFER_TYPE_LABEL } from '../../const';
+import { OFFER_TYPE_LABEL, AppRoute } from '../../const';
 
 type OfferCardProps = {
   offer: Offer;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
+  onActiveOfferChange: (offerId: string | null) => void;
 }
 
-export default function OfferCard({offer, onMouseEnter,
-  onMouseLeave}: OfferCardProps) {
+export default function OfferCard({offer, onActiveOfferChange}: OfferCardProps) {
   const ratingWidth = `${(offer.rating / 5) * 100}%`;
 
   const bookmarkButtonClassName = `place-card__bookmark-button button ${
@@ -19,8 +17,8 @@ export default function OfferCard({offer, onMouseEnter,
   return (
     <article
       className="cities__card place-card"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onMouseEnter={() => onActiveOfferChange(offer.id)}
+      onMouseLeave={() => onActiveOfferChange(null)}
     >
       {offer.isPremium && (
         <div className="place-card__mark">
@@ -28,7 +26,7 @@ export default function OfferCard({offer, onMouseEnter,
         </div>
       )}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`/offer/${offer.id}`}>
+        <Link to={generatePath(AppRoute.Offer, { id: offer.id })}>
           <img
             className="place-card__image"
             src={offer.previewImage}
@@ -71,7 +69,7 @@ export default function OfferCard({offer, onMouseEnter,
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${offer.id}`}>
+          <Link to={generatePath(AppRoute.Offer, { id: offer.id })}>
             {offer.title}
           </Link>
         </h2>

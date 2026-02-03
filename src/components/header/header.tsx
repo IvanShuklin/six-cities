@@ -1,15 +1,19 @@
 import { AuthorizationStatus } from '../../const';
 import Logo from '../logo/logo';
-import AuthorizedMenu from './components/authorized-menu';
-import UnauthorizedMenu from './components/unauthorized-menu';
+import {
+  ProfileMenuContent,
+  SignOutMenuContent,
+  SignInMenuContent
+} from './menu-content';
 
 type HeaderProps = {
-  authorizationStatus: AuthorizationStatus;
-  favoritesCount: number;
+  authorizationStatus?: AuthorizationStatus;
+  favoritesCount?: number;
 };
 
-export default function Header({ authorizationStatus, favoritesCount }: HeaderProps) {
+export default function Header({ authorizationStatus, favoritesCount = 0 }: HeaderProps) {
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
+  const userEmail = 'oliver.conner@gmail.com';
 
   return (
     <header className="header">
@@ -24,15 +28,25 @@ export default function Header({ authorizationStatus, favoritesCount }: HeaderPr
             />
           </div>
 
-          <nav className="header__nav">
+          <nav className="header__nav" aria-label="Main">
             <ul className="header__nav-list">
               {isAuth ? (
-                <AuthorizedMenu
-                  userEmail="oliver.conner@gmail.com"
-                  favoritesCount={favoritesCount}
-                />
+                <>
+                  <li className="header__nav-item user">
+                    <ProfileMenuContent
+                      userEmail={userEmail}
+                      favoritesCount={favoritesCount}
+                    />
+                  </li>
+
+                  <li className="header__nav-item">
+                    <SignOutMenuContent />
+                  </li>
+                </>
               ) : (
-                <UnauthorizedMenu />
+                <li className="header__nav-item">
+                  <SignInMenuContent />
+                </li>
               )}
             </ul>
           </nav>

@@ -41,7 +41,7 @@ export type SortOption =
 export const AppRoute = {
   Main: '/',
   Login: '/login',
-  Offer: '/offer',
+  Offer: '/offer/:id',
   Favorites: '/favorites',
   NotFound: '*',
 } as const;
@@ -58,4 +58,9 @@ export enum PageTitle {
   Favorites = '6 Cities. Favorites',
   Offer = '6 Cities. Offer',
   NotFound = '6 Cities. Page not found',
+}
+
+export enum HeaderMode {
+  Default = 'default',
+  Login = 'login',
 }
