@@ -1,9 +1,11 @@
 import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { AppRoute, PageTitle, AuthorizationStatus } from '../../const';
 import { Offer } from '../../types/offer';
 import OffersList from '../../components/offers-list/offers-list';
 import Review from '../../components/review/review';
+import Map from '../../components/map/map';
 
 type OfferPageProps = {
   offers: Offer[];
@@ -11,6 +13,8 @@ type OfferPageProps = {
 };
 
 export default function OfferPage({ offers, authorizationStatus }: OfferPageProps) {
+  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+
   const { id } = useParams<{ id: string }>();
 
   const currentOffer = offers.find(
@@ -140,7 +144,15 @@ export default function OfferPage({ offers, authorizationStatus }: OfferPageProp
               </section>
             </div>
           </div>
-          <section className="offer__map map" />
+          <section className="offer__map map">
+
+            <Map
+              city={currentOffer.city}
+              offers={nearbyOffers}
+              activeOfferId={activeOfferId}
+            />
+
+          </section>
         </section>
         <div className="container">
           <section className="near-places places">
@@ -150,6 +162,7 @@ export default function OfferPage({ offers, authorizationStatus }: OfferPageProp
 
             <OffersList
               offers={nearbyOffers}
+              onActiveOfferChange={setActiveOfferId}
               className="near-places__list places__list"
             />
 
