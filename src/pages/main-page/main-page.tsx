@@ -31,14 +31,22 @@ export default function MainPage({offers}: MainPageProps) {
                 {offers.length} places to stay in Amsterdam
               </b>
               <PlacesSorting />
-              <OffersList offers={offers} onActiveOfferChange={setActiveOfferId} />
+
+              <OffersList
+                offers={offers}
+                onActiveOfferChange={setActiveOfferId}
+                className="cities__places-list places__list tabs__content"
+              />
+
             </section>
             <div className="cities__right-section">
+
               <Map
                 city={offers[0].city}
                 offers={offers}
                 activeOfferId={activeOfferId}
               />
+
             </div>
           </div>
         </div>

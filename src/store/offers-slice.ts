@@ -31,7 +31,7 @@ export const fetchOffers = createAsyncThunk<
 
       const dto = (await response.json()) as OfferDto[];
 
-      return parseOffers(dto); // DTO[] → Domain Offer[]
+      return parseOffers(dto);
     } catch (error) {
       return rejectWithValue(
         error instanceof Error ? error.message : 'Unknown error'
