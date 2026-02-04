@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { AppRoute, PageTitle, AuthorizationStatus } from '../../const';
 import { Offer } from '../../types/offer';
+import { comments } from '../../mocks/comments';
 import OffersList from '../../components/offers-list/offers-list';
 import Review from '../../components/review/review';
 import Map from '../../components/map/map';
@@ -136,10 +137,13 @@ export default function OfferPage({ offers, authorizationStatus }: OfferPageProp
               </div>
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
-              Reviews · <span className="reviews__amount">1</span>
+              Reviews · <span className="reviews__amount">{comments.length}</span>
                 </h2>
 
-                <Review authorizationStatus={authorizationStatus} />
+                <Review
+                  authorizationStatus={authorizationStatus}
+                  comments={comments}
+                />
 
               </section>
             </div>
