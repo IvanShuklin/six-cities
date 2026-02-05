@@ -4,7 +4,7 @@ import { OFFER_TYPE_LABEL, AppRoute } from '../../const';
 
 type OfferCardProps = {
   offer: Offer;
-  onActiveOfferChange: (offerId: string | null) => void;
+  onActiveOfferChange?: (offerId: string | null) => void;
 }
 
 export default function OfferCard({offer, onActiveOfferChange}: OfferCardProps) {
@@ -17,8 +17,8 @@ export default function OfferCard({offer, onActiveOfferChange}: OfferCardProps) 
   return (
     <article
       className="cities__card place-card"
-      onMouseEnter={() => onActiveOfferChange(offer.id)}
-      onMouseLeave={() => onActiveOfferChange(null)}
+      onMouseEnter={() => onActiveOfferChange?.(offer.id)}
+      onMouseLeave={() => onActiveOfferChange?.(null)}
     >
       {offer.isPremium && (
         <div className="place-card__mark">

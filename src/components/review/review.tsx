@@ -1,13 +1,14 @@
 import { AuthorizationStatus } from '../../const';
-import { comments } from '../../mocks/comments';
+import { Comment } from '../../types/comment';
 import ReviewList from '../review-list/review-list';
 import ReviewForm from '../review-form/review-form';
 
 type ReviewProps = {
   authorizationStatus: AuthorizationStatus;
+  comments: Comment[];
 };
 
-export default function Review({ authorizationStatus }: ReviewProps) {
+export default function Review({ authorizationStatus, comments }: ReviewProps) {
   return (
     <>
       <ReviewList comments={comments} />

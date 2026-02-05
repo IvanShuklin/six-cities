@@ -3,12 +3,17 @@ import OfferCard from '../../components/offer-card/offer-card';
 
 type OffersListProps = {
   offers: Offer[];
-  onActiveOfferChange: (offerId: string | null) => void;
+  className: string;
+  onActiveOfferChange?: (offerId: string | null) => void;
 }
 
-export default function OffersList({ offers, onActiveOfferChange }: OffersListProps) {
+export default function OffersList({
+  offers,
+  onActiveOfferChange,
+  className
+}: OffersListProps) {
   return(
-    <div className="cities__places-list places__list tabs__content">
+    <div className={className}>
       {offers.map((offer) => (
         <OfferCard
           key={offer.id}
