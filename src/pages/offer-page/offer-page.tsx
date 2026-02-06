@@ -1,5 +1,4 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { AppRoute, PageTitle, AuthorizationStatus } from '../../const';
 import { Offer } from '../../types/offer';
@@ -13,9 +12,9 @@ type OfferPageProps = {
   authorizationStatus: AuthorizationStatus;
 };
 
-export default function OfferPage({ offers, authorizationStatus }: OfferPageProps) {
-  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+const NEARBY_OFFERS_LIMIT = 3;
 
+export default function OfferPage({ offers, authorizationStatus }: OfferPageProps) {
   const { id } = useParams<{ id: string }>();
 
   const currentOffer = offers.find(
@@ -28,7 +27,12 @@ export default function OfferPage({ offers, authorizationStatus }: OfferPageProp
 
   const nearbyOffers = offers
     .filter((offer) => offer.id !== currentOffer.id)
-    .slice(0, 3);
+    .slice(0, NEARBY_OFFERS_LIMIT);
+
+  const offersForMap = [
+    currentOffer,
+    ...nearbyOffers,
+  ];
 
   return (
     <>
@@ -152,8 +156,8 @@ export default function OfferPage({ offers, authorizationStatus }: OfferPageProp
 
             <Map
               city={currentOffer.city}
-              offers={nearbyOffers}
-              activeOfferId={activeOfferId}
+              offers={offersForMap}
+              activeOfferId={currentOffer.id}
             />
 
           </section>
@@ -166,7 +170,6 @@ export default function OfferPage({ offers, authorizationStatus }: OfferPageProp
 
             <OffersList
               offers={nearbyOffers}
-              onActiveOfferChange={setActiveOfferId}
               className="near-places__list places__list"
             />
 
