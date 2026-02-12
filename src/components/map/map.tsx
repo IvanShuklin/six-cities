@@ -34,6 +34,20 @@ export default function Map({ city, offers, activeOfferId }: MapProps) {
       return;
     }
 
+    map.setView(
+      {
+        lat: city.location.latitude,
+        lng: city.location.longitude,
+      },
+      city.location.zoom
+    );
+  }, [map, city]);
+
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+
     const markerLayer = layerGroup().addTo(map);
 
     offers.forEach((offer) => {
@@ -43,9 +57,9 @@ export default function Map({ city, offers, activeOfferId }: MapProps) {
       });
 
       const icon =
-      offer.id === activeOfferId
-        ? activeIcon
-        : defaultIcon;
+        offer.id === activeOfferId
+          ? activeIcon
+          : defaultIcon;
 
       marker.setIcon(icon).addTo(markerLayer);
     });

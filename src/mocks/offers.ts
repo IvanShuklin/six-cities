@@ -1,13 +1,6 @@
 import { HousingType } from '../types/housing-type';
 import { Offer } from '../types/offer';
-
-const AMSTERDAM_CITY = {
-  name: 'Amsterdam',
-  location: {
-    latitude: 52.377956,
-    longitude: 4.897070,
-    zoom: 12 }
-};
+import { AMSTERDAM, PARIS } from './cities';
 
 export const offers: Offer[] = [
   {
@@ -60,7 +53,7 @@ export const offers: Offer[] = [
       zoom: 8
     },
 
-    city: AMSTERDAM_CITY,
+    city: AMSTERDAM,
   },
   {
     id: '2',
@@ -105,7 +98,7 @@ export const offers: Offer[] = [
       zoom: 8
     },
 
-    city: AMSTERDAM_CITY,
+    city: AMSTERDAM,
   },
   {
     id: '3',
@@ -148,7 +141,7 @@ export const offers: Offer[] = [
       zoom: 8
     },
 
-    city: AMSTERDAM_CITY,
+    city: AMSTERDAM,
   },
   {
     id: '4',
@@ -194,6 +187,41 @@ export const offers: Offer[] = [
       zoom: 8
     },
 
-    city: AMSTERDAM_CITY
-  }
+    city: AMSTERDAM
+  },
+  {
+    id: '5',
+    title: 'Romantic flat near the Seine',
+    type: HousingType.Apartment,
+    price: 150,
+    rating: 4.7,
+    isPremium: true,
+    isFavorite: false,
+
+    previewImage: 'markup/img/apartment-02.jpg',
+    images: ['markup/img/apartment-02.jpg'],
+
+    bedrooms: 1,
+    maxAdults: 2,
+
+    goods: ['Wi-Fi', 'Coffee machine'],
+
+    host: {
+      name: 'Claire Dubois',
+      avatarUrl: 'markup/img/avatar-angelina.jpg',
+      isPro: true,
+    },
+
+    description: [
+      'Perfect place for a romantic stay in Paris.',
+    ],
+
+    location: {
+      latitude: 48.857,
+      longitude: 2.351,
+      zoom: 8,
+    },
+
+    city: PARIS,
+  },
 ];
