@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
-import { PageTitle } from '../../const';
+import { PageTitle } from '../../const/const';
 import { Offer } from '../../types/offer';
 import OffersList from '../../components/offers-list/offers-list';
 import NavTabs from './components/nav-tabs/nav-tabs';

@@ -1,5 +1,5 @@
 import TabsItem from './tabs-item/tabs-item';
-import { CITIES } from '../../../../const';
+import { CITIES } from '../../../../const/const';
 
 export default function NavTabs() {
   return (

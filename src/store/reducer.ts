@@ -1,11 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { cityChanged, offersLoaded } from './action';
-import { PARIS } from '../mocks/cities';
-import { offers } from '../mocks/offers';
+import { CITIES } from '../const/cities';
+import { MainState } from '../types/state';
 
-const initialState = {
-  city: PARIS,
-  offers: offers,
+const initialState: MainState = {
+  city: CITIES[0],
+  offers: [],
 };
 
 export const mainReducer = createReducer(initialState, (builder) => {

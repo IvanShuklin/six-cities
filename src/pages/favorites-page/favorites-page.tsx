@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { Link, generatePath } from 'react-router-dom';
-import { PageTitle, AppRoute } from '../../const';
+import { PageTitle, AppRoute } from '../../const/const';
 import { Offer } from '../../types/offer';
 import Footer from './components/footer/footer';
 

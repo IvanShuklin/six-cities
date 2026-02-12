@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { AppRoute, AuthorizationStatus } from '../../const.ts';
+import { AppRoute, AuthorizationStatus } from '../../const/const.ts';
 import { Offer } from '../../types/offer.ts';
 import MainLayout from '../layout/main-layout/main-layout.tsx';
 import LoginLayout from '../layout/login-layout/login-layout.tsx';

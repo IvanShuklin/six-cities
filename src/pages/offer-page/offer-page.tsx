@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useParams, Navigate } from 'react-router-dom';
-import { AppRoute, PageTitle, AuthorizationStatus } from '../../const';
+import { AppRoute, PageTitle, AuthorizationStatus } from '../../const/const';
 import { Offer } from '../../types/offer';
 import { comments } from '../../mocks/comments';
 import OffersList from '../../components/offers-list/offers-list';

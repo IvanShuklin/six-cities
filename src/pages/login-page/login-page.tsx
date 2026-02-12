@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { PageTitle } from '../../const';
+import { PageTitle } from '../../const/const';
 
 export default function LoginPage() {
   return (

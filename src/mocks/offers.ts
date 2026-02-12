@@ -1,6 +1,6 @@
 import { HousingType } from '../types/housing-type';
 import { Offer } from '../types/offer';
-import { AMSTERDAM, PARIS } from './cities';
+import { CITIES } from '../const/cities';
 
 export const offers: Offer[] = [
   {
@@ -53,7 +53,7 @@ export const offers: Offer[] = [
       zoom: 8
     },
 
-    city: AMSTERDAM,
+    city: CITIES[3],
   },
   {
     id: '2',
@@ -98,7 +98,7 @@ export const offers: Offer[] = [
       zoom: 8
     },
 
-    city: AMSTERDAM,
+    city: CITIES[3],
   },
   {
     id: '3',
@@ -141,7 +141,7 @@ export const offers: Offer[] = [
       zoom: 8
     },
 
-    city: AMSTERDAM,
+    city: CITIES[3],
   },
   {
     id: '4',
@@ -187,7 +187,7 @@ export const offers: Offer[] = [
       zoom: 8
     },
 
-    city: AMSTERDAM
+    city: CITIES[3],
   },
   {
     id: '5',
@@ -222,6 +222,6 @@ export const offers: Offer[] = [
       zoom: 8,
     },
 
-    city: PARIS,
+    city: CITIES[0],
   },
 ];

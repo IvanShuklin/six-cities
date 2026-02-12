@@ -5,7 +5,7 @@ export const CITIES = [
   'Amsterdam',
   'Hamburg',
   'Dusseldorf',
-];
+] as const;
 
 export const OFFER_FEATURES = [
   'Wi-Fi',

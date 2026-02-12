@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus } from '../../const/const';
 import { Comment } from '../../types/comment';
 import ReviewList from '../review-list/review-list';
 import ReviewForm from '../review-form/review-form';
