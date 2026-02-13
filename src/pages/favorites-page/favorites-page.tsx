@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link, generatePath } from 'react-router-dom';
 import { PageTitle, AppRoute } from '../../const/const';
 import { Offer } from '../../types/offer';
-import Footer from './components/footer/footer';
+import Footer from './components/footer';
 
 type FavoritesPageProps = {
   offers: Offer[];
