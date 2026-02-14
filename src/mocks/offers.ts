@@ -224,4 +224,159 @@ export const offers: Offer[] = [
 
     city: CITIES[0],
   },
+  {
+    id: '6',
+    title: 'Cozy studio in Montmartre',
+    type: HousingType.Room,
+    price: 90,
+    rating: 4.2,
+    isPremium: false,
+    isFavorite: true,
+
+    previewImage: 'markup/img/room.jpg',
+    images: [
+      'markup/img/room.jpg',
+      'markup/img/apartment-01.jpg',
+    ],
+
+    bedrooms: 1,
+    maxAdults: 2,
+
+    goods: ['Wi-Fi', 'Heating', 'Kitchen', 'Towels'],
+
+    host: {
+      name: 'Julien Martin',
+      avatarUrl: 'markup/img/avatar-max.jpg',
+      isPro: false,
+    },
+
+    description: [
+      'Small but charming studio in the heart of Montmartre.',
+      'Walking distance to Sacré-Cœur.',
+    ],
+
+    location: {
+      latitude: 48.8867,
+      longitude: 2.3431,
+      zoom: 8,
+    },
+
+    city: CITIES[0],
+  },
+  {
+    id: '7',
+    title: 'Spacious loft with Eiffel Tower view',
+    type: HousingType.Apartment,
+    price: 320,
+    rating: 4.9,
+    isPremium: true,
+    isFavorite: false,
+
+    previewImage: 'markup/img/apartment-03.jpg',
+    images: [
+      'markup/img/apartment-03.jpg',
+      'markup/img/apartment-02.jpg',
+    ],
+
+    bedrooms: 2,
+    maxAdults: 4,
+
+    goods: ['Wi-Fi', 'Air conditioning', 'Dishwasher', 'Washing machine', 'Coffee machine'],
+
+    host: {
+      name: 'Sophie Laurent',
+      avatarUrl: 'markup/img/avatar-angelina.jpg',
+      isPro: true,
+    },
+
+    description: [
+      'Luxury loft with breathtaking Eiffel Tower view.',
+      'Perfect for families or couples.',
+    ],
+
+    location: {
+      latitude: 48.8584,
+      longitude: 2.2945,
+      zoom: 8,
+    },
+
+    city: CITIES[0],
+  },
+  {
+    id: '9',
+    title: 'Modern flat near Cologne Cathedral',
+    type: HousingType.Apartment,
+    price: 140,
+    rating: 4.5,
+    isPremium: false,
+    isFavorite: false,
+
+    previewImage: 'markup/img/apartment-02.jpg',
+    images: [
+      'markup/img/apartment-02.jpg',
+    ],
+
+    bedrooms: 1,
+    maxAdults: 2,
+
+    goods: ['Wi-Fi', 'Heating', 'Kitchen', 'Coffee machine'],
+
+    host: {
+      name: 'Lukas Schneider',
+      avatarUrl: 'markup/img/avatar-max.jpg',
+      isPro: true,
+    },
+
+    description: [
+      'Modern flat just a few minutes from Cologne Cathedral.',
+      'Ideal for business trips.',
+    ],
+
+    location: {
+      latitude: 50.9413,
+      longitude: 6.9583,
+      zoom: 8,
+    },
+
+    city: CITIES[1],
+  },
+  {
+    id: '10',
+    title: 'Family house with Rhine view',
+    type: HousingType.House,
+    price: 210,
+    rating: 4.6,
+    isPremium: true,
+    isFavorite: true,
+
+    previewImage: 'markup/img/apartment-01.jpg',
+    images: [
+      'markup/img/studio-01.jpg',
+      'markup/img/apartment-03.jpg',
+    ],
+
+    bedrooms: 3,
+    maxAdults: 6,
+
+    goods: ['Wi-Fi', 'Parking', 'Washing machine', 'Dishwasher', 'Garden'],
+
+    host: {
+      name: 'Anna Müller',
+      avatarUrl: 'markup/img/avatar-angelina.jpg',
+      isPro: true,
+    },
+
+    description: [
+      'Spacious family house with beautiful Rhine river view.',
+      'Quiet neighborhood and private garden.',
+    ],
+
+    location: {
+      latitude: 50.9375,
+      longitude: 6.9603,
+      zoom: 8,
+    },
+
+    city: CITIES[1],
+  },
 ];
