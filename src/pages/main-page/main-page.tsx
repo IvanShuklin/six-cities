@@ -2,15 +2,19 @@ import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { State } from '../../types/state';
+import { Offer } from '../../types/offer';
 import { PageTitle } from '../../const/const';
 import OffersList from '../../components/offers-list/offers-list';
 import NavTabs from './components/nav-tabs';
 import PlacesSorting from './components/places-sorting';
 import Map from '../../components/map/map';
 
-export default function MainPage() {
+type MainPageProps = {
+  offers: Offer[];
+};
+
+export default function MainPage({ offers }: MainPageProps) {
   const city = useSelector((state: State) => state.main.city);
-  const offers = useSelector((state: State) => state.main.offers);
 
   const filteredOffers = offers.filter(
     (offer) => offer.city.name === city.name
