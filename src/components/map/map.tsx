@@ -2,7 +2,7 @@ import {useRef, useEffect} from 'react';
 import {Icon, Marker, layerGroup} from 'leaflet';
 import { Offer } from '../../types/offer';
 import { City } from '../../types/city';
-import useMap from '../hooks/use-map';
+import useMap from '../../hooks/use-map';
 
 type MapProps = {
   city: City;
@@ -34,6 +34,20 @@ export default function Map({ city, offers, activeOfferId }: MapProps) {
       return;
     }
 
+    map.setView(
+      {
+        lat: city.location.latitude,
+        lng: city.location.longitude,
+      },
+      city.location.zoom
+    );
+  }, [map, city]);
+
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+
     const markerLayer = layerGroup().addTo(map);
 
     offers.forEach((offer) => {
@@ -43,9 +57,9 @@ export default function Map({ city, offers, activeOfferId }: MapProps) {
       });
 
       const icon =
-      offer.id === activeOfferId
-        ? activeIcon
-        : defaultIcon;
+        offer.id === activeOfferId
+          ? activeIcon
+          : defaultIcon;
 
       marker.setIcon(icon).addTo(markerLayer);
     });

@@ -1,5 +1,5 @@
 import TabsItem from './tabs-item/tabs-item';
-import { CITIES } from '../../../../const';
+import { CITIES } from '../../../const/cities';
 
 export default function NavTabs() {
   return (
@@ -7,7 +7,7 @@ export default function NavTabs() {
       <section className="locations container">
         <ul className="locations__list tabs__list">
           {CITIES.map((city) => (
-            <TabsItem key={city} city={city} />
+            <TabsItem key={city.name} city={city} />
           ))}
         </ul>
       </section>

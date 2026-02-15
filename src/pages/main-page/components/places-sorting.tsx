@@ -1,4 +1,4 @@
-import { SORTING_OPTIONS } from '../../../../const';
+import { SORTING_OPTIONS } from '../../../const/const';
 
 export default function PlacesSorting() {
   const currentOption = SORTING_OPTIONS.POPULAR;

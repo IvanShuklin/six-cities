@@ -1,6 +1,6 @@
 import { Link, generatePath } from 'react-router-dom';
 import { Offer } from '../../types/offer';
-import { OFFER_TYPE_LABEL, AppRoute } from '../../const';
+import { OFFER_TYPE_LABEL, AppRoute } from '../../const/const';
 
 type OfferCardProps = {
   offer: Offer;

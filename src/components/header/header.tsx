@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus } from '../../const/const';
 import Logo from '../logo/logo';
 import {
   ProfileMenuContent,

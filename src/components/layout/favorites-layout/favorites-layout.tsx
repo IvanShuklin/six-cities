@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { AuthorizationStatus } from '../../../const';
+import { AuthorizationStatus } from '../../../const/const';
 import { Offer } from '../../../types/offer';
 import { getFavoritesCount } from '../../../utils/util';
 import Header from '../../header/header';
