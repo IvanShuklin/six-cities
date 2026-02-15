@@ -1,7 +1,8 @@
+import React, { useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
-import { cityChanged } from '../../../../store/action';
+import { cityChanged, selectActiveCity } from '../../../../store/main-slice';
 import { City } from '../../../../types/city';
-import { State } from '../../../../types/state';
 
 type TabItemProps = {
   city: City;
@@ -9,24 +10,29 @@ type TabItemProps = {
 
 export default function TabsItem({ city }: TabItemProps) {
   const dispatch = useAppDispatch();
-  const activeCity = useAppSelector((state: State) => state.main.city);
+  const activeCity = useAppSelector(selectActiveCity);
 
   const isActive = activeCity.name === city.name;
 
+  const handleActiveCityChange = useCallback(
+    (evt: React.MouseEvent<HTMLAnchorElement>) => {
+      evt.preventDefault();
+      dispatch(cityChanged(city));
+    },
+    [dispatch, city]
+  );
+
+  const activeLinkClass = isActive ? 'tabs__item--active' : '';
+
   return (
     <li className="locations__item">
-      <a
-        className={`locations__item-link tabs__item ${
-          isActive ? 'tabs__item--active' : ''
-        }`}
-        href="#"
-        onClick={(evt) => {
-          evt.preventDefault();
-          dispatch(cityChanged(city));
-        }}
+      <Link
+        className={`locations__item-link tabs__item ${activeLinkClass}`}
+        to="#"
+        onClick={handleActiveCityChange}
       >
         <span>{city.name}</span>
-      </a>
+      </Link>
     </li>
   );
 }
