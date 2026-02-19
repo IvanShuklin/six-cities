@@ -1,23 +1,27 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { State } from '../../types/state';
-import { Offer } from '../../types/offer';
 import { PageTitle } from '../../const/const';
 import OffersList from '../../components/offers-list/offers-list';
 import NavTabs from './components/nav-tabs';
 import PlacesSorting from './components/places-sorting';
 import Map from '../../components/map/map';
+import { selectActiveCity, selectOffers, selectSortOption } from '../../store/main-slice';
+import { sortOffers } from '../../utils/sort-offers';
 
-type MainPageProps = {
-  offers: Offer[];
-};
+export default function MainPage() {
+  const city = useSelector(selectActiveCity);
+  const offers = useSelector(selectOffers);
+  const sortOption = useSelector(selectSortOption);
 
-export default function MainPage({ offers }: MainPageProps) {
-  const city = useSelector((state: State) => state.main.city);
+  const filteredOffers = useMemo(
+    () => offers.filter((offer) => offer.city.name === city.name),
+    [offers, city.name]
+  );
 
-  const filteredOffers = offers.filter(
-    (offer) => offer.city.name === city.name
+  const sortedOffers = useMemo(
+    () => sortOffers(filteredOffers, sortOption),
+    [filteredOffers, sortOption]
   );
 
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
@@ -38,24 +42,19 @@ export default function MainPage({ offers }: MainPageProps) {
               <b className="places__found">
                 {filteredOffers.length} places to stay in {city.name}
               </b>
+
               <PlacesSorting />
 
               <OffersList
-                offers={filteredOffers}
+                offers={sortedOffers}
                 onActiveOfferChange={setActiveOfferId}
                 className="cities__places-list places__list tabs__content"
               />
-
             </section>
+
             <div className="cities__right-section">
               <section className="cities__map map">
-
-                <Map
-                  city={city}
-                  offers={filteredOffers}
-                  activeOfferId={activeOfferId}
-                />
-
+                <Map city={city} offers={sortedOffers} activeOfferId={activeOfferId} />
               </section>
             </div>
           </div>

@@ -12,7 +12,7 @@ export const offers: Offer[] = [
     isPremium: true,
     isFavorite: false,
 
-    previewImage: 'markup/img/apartment-01.jpg',
+    previewImage: 'https://15.design.htmlacademy.pro/static/hotel/9.jpg',
     images: [
       'markup/img/studio-01.jpg',
       'markup/img/apartment-01.jpg',
@@ -64,7 +64,7 @@ export const offers: Offer[] = [
     isPremium: false,
     isFavorite: true,
 
-    previewImage: 'markup/img/apartment-02.jpg',
+    previewImage: 'https://15.design.htmlacademy.pro/static/hotel/3.jpg',
     images: [
       'markup/img/apartment-02.jpg',
       'markup/img/apartment-03.jpg',
@@ -198,7 +198,7 @@ export const offers: Offer[] = [
     isPremium: true,
     isFavorite: false,
 
-    previewImage: 'markup/img/apartment-02.jpg',
+    previewImage: 'https://15.design.htmlacademy.pro/static/hotel/20.jpg',
     images: ['markup/img/apartment-02.jpg'],
 
     bedrooms: 1,
@@ -233,7 +233,7 @@ export const offers: Offer[] = [
     isPremium: false,
     isFavorite: true,
 
-    previewImage: 'markup/img/room.jpg',
+    previewImage: 'https://15.design.htmlacademy.pro/static/hotel/12.jpg',
     images: [
       'markup/img/room.jpg',
       'markup/img/apartment-01.jpg',
