@@ -1,25 +1,24 @@
 import { Helmet } from 'react-helmet-async';
 import { useParams, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { AppRoute, PageTitle, AuthorizationStatus } from '../../const/const';
-import { Offer } from '../../types/offer';
 import { comments } from '../../mocks/comments';
 import OffersList from '../../components/offers-list/offers-list';
 import Review from '../../components/review/review';
 import Map from '../../components/map/map';
+import { selectOffers } from '../../store/main-slice';
 
 type OfferPageProps = {
-  offers: Offer[];
   authorizationStatus: AuthorizationStatus;
 };
 
 const NEARBY_OFFERS_LIMIT = 3;
 
-export default function OfferPage({ offers, authorizationStatus }: OfferPageProps) {
+export default function OfferPage({ authorizationStatus }: OfferPageProps) {
   const { id } = useParams<{ id: string }>();
+  const offers = useSelector(selectOffers);
 
-  const currentOffer = offers.find(
-    (offer) => offer.id === String(id)
-  );
+  const currentOffer = offers.find((offer) => offer.id === String(id));
 
   if (!currentOffer) {
     return <Navigate to={AppRoute.NotFound} />;
@@ -29,10 +28,7 @@ export default function OfferPage({ offers, authorizationStatus }: OfferPageProp
     .filter((offer) => offer.id !== currentOffer.id)
     .slice(0, NEARBY_OFFERS_LIMIT);
 
-  const offersForMap = [
-    currentOffer,
-    ...nearbyOffers,
-  ];
+  const offersForMap = [currentOffer, ...nearbyOffers];
 
   return (
     <>
@@ -42,7 +38,6 @@ export default function OfferPage({ offers, authorizationStatus }: OfferPageProp
 
       <main className="page__main page__main--offer">
         <section className="offer">
-
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
               {currentOffer.images.map((image) => (
@@ -59,7 +54,6 @@ export default function OfferPage({ offers, authorizationStatus }: OfferPageProp
 
           <div className="offer__container container">
             <div className="offer__wrapper">
-
               {currentOffer.isPremium && (
                 <div className="offer__mark">
                   <span>Premium</span>
@@ -67,9 +61,7 @@ export default function OfferPage({ offers, authorizationStatus }: OfferPageProp
               )}
 
               <div className="offer__name-wrapper">
-                <h1 className="offer__name">
-                  {currentOffer.title}
-                </h1>
+                <h1 className="offer__name">{currentOffer.title}</h1>
 
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width={31} height={33}>
@@ -93,7 +85,7 @@ export default function OfferPage({ offers, authorizationStatus }: OfferPageProp
                   {currentOffer.bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-              Max {currentOffer.maxAdults} adults
+                  Max {currentOffer.maxAdults} adults
                 </li>
               </ul>
 
@@ -126,9 +118,7 @@ export default function OfferPage({ offers, authorizationStatus }: OfferPageProp
                     />
                   </div>
                   <span className="offer__user-name">{currentOffer.host.name}</span>
-                  {currentOffer.host.isPro && (
-                    <span className="offer__user-status">Pro</span>
-                  )}
+                  {currentOffer.host.isPro && <span className="offer__user-status">Pro</span>}
                 </div>
 
                 <div className="offer__description">
@@ -141,38 +131,22 @@ export default function OfferPage({ offers, authorizationStatus }: OfferPageProp
               </div>
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
-              Reviews · <span className="reviews__amount">{comments.length}</span>
+                  Reviews · <span className="reviews__amount">{comments.length}</span>
                 </h2>
 
-                <Review
-                  authorizationStatus={authorizationStatus}
-                  comments={comments}
-                />
-
+                <Review authorizationStatus={authorizationStatus} comments={comments} />
               </section>
             </div>
           </div>
           <section className="offer__map map">
-
-            <Map
-              city={currentOffer.city}
-              offers={offersForMap}
-              activeOfferId={currentOffer.id}
-            />
-
+            <Map city={currentOffer.city} offers={offersForMap} activeOfferId={currentOffer.id} />
           </section>
         </section>
         <div className="container">
           <section className="near-places places">
-            <h2 className="near-places__title">
-          Other places in the neighbourhood
-            </h2>
+            <h2 className="near-places__title">Other places in the neighbourhood</h2>
 
-            <OffersList
-              offers={nearbyOffers}
-              className="near-places__list places__list"
-            />
-
+            <OffersList offers={nearbyOffers} className="near-places__list places__list" />
           </section>
         </div>
       </main>

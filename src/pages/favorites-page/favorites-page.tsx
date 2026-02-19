@@ -1,14 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 import { Link, generatePath } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { PageTitle, AppRoute } from '../../const/const';
-import { Offer } from '../../types/offer';
 import Footer from './components/footer';
+import { selectOffers } from '../../store/main-slice';
+import { Offer } from '../../types/offer';
 
-type FavoritesPageProps = {
-  offers: Offer[];
-};
+export default function FavoritesPage() {
+  const offers = useSelector(selectOffers);
 
-export default function FavoritesPage({ offers }: FavoritesPageProps) {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
   const isFavoriteOffersEmpty = favoriteOffers.length === 0;
 
@@ -22,9 +22,10 @@ export default function FavoritesPage({ offers }: FavoritesPageProps) {
         <div className="page__favorites-container container">
           <section className={`favorites ${isFavoriteOffersEmpty ? 'favorites--empty' : ''}`}>
             <h1 className="favorites__title">Saved listing</h1>
+
             {!isFavoriteOffersEmpty ? (
               <ul className="favorites__list">
-                {favoriteOffers.map((offer) => (
+                {favoriteOffers.map((offer: Offer) => (
                   <li key={offer.id} className="favorites__locations-items">
                     <div className="favorites__places">
                       <article className="favorites__card place-card">
@@ -50,15 +51,10 @@ export default function FavoritesPage({ offers }: FavoritesPageProps) {
                           <div className="place-card__price-wrapper">
                             <div className="place-card__price">
                               <b className="place-card__price-value">€{offer.price}</b>
-                              <span className="place-card__price-text">
-                  /&nbsp;night
-                              </span>
+                              <span className="place-card__price-text">/&nbsp;night</span>
                             </div>
 
-                            <button
-                              className="place-card__bookmark-button place-card__bookmark-button--active button"
-                              type="button"
-                            >
+                            <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
                               <svg className="place-card__bookmark-icon" width={18} height={19}>
                                 <use xlinkHref="#icon-bookmark" />
                               </svg>
@@ -74,9 +70,7 @@ export default function FavoritesPage({ offers }: FavoritesPageProps) {
                           </div>
 
                           <h2 className="place-card__name">
-                            <Link to={generatePath(AppRoute.Offer, { id: offer.id })}>
-                              {offer.title}
-                            </Link>
+                            <Link to={generatePath(AppRoute.Offer, { id: offer.id })}>{offer.title}</Link>
                           </h2>
 
                           <p className="place-card__type">{offer.type}</p>
@@ -87,9 +81,7 @@ export default function FavoritesPage({ offers }: FavoritesPageProps) {
                 ))}
               </ul>
             ) : (
-              <p className="favorites__status">
-      Save properties to narrow down search or plan your future trips.
-              </p>
+              <p className="favorites__status">Save properties to narrow down search or plan your future trips.</p>
             )}
           </section>
         </div>
