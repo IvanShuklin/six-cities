@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
 import { AppRoute, AuthorizationStatus } from '../../const/const';
-import { Offer } from '../../types/offer';
 import MainLayout from '../layout/main-layout/main-layout';
 import LoginLayout from '../layout/login-layout/login-layout';
 import FavoritesLayout from '../layout/favorites-layout/favorites-layout';
@@ -14,19 +13,16 @@ import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import PublicRoute from '../public-route/public-route';
-import { offersLoaded } from '../../store/main-slice';
+import { fetchOffers } from '../../store/main-slice';
+import { AppDispatch } from '../../store';
 
-type AppProps = {
-  offers: Offer[];
-};
-
-export default function App({ offers }: AppProps) {
+export default function App() {
   const authorizationStatus = AuthorizationStatus.Auth;
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(offersLoaded(offers));
-  }, [dispatch, offers]);
+    dispatch(fetchOffers());
+  }, [dispatch]);
 
   return (
     <HelmetProvider>

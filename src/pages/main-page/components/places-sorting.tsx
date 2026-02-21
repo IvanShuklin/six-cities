@@ -8,7 +8,8 @@ export default function PlacesSorting() {
   const currentOption = useSelector(selectSortOption);
 
   const [isOpen, setIsOpen] = useState(false);
-  const toggleOpen = () => setIsOpen((s) => !s);
+  const handleSortingToggle = () => setIsOpen((s) => !s);
+  const placesOpenClass = isOpen ? 'places__options--opened' : undefined;
 
   const handleOptionClick = (option: SortOption) => {
     if (option === currentOption) {
@@ -27,7 +28,7 @@ export default function PlacesSorting() {
         className="places__sorting-type"
         tabIndex={0}
         role="button"
-        onClick={toggleOpen}
+        onClick={handleSortingToggle}
       >
         {currentOption}
         <svg className="places__sorting-arrow" width={7} height={4}>
@@ -35,7 +36,7 @@ export default function PlacesSorting() {
         </svg>
       </span>
 
-      <ul className={`places__options places__options--custom ${isOpen ? 'places__options--opened' : ''}`}>
+      <ul className={`places__options places__options--custom ${placesOpenClass}`}>
         {Object.values(SORTING_OPTIONS).map((option) => {
           const isActive = option === currentOption;
           return (
