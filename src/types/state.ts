@@ -11,4 +11,6 @@ export type MainState = {
   city: City;
   offers: Offer[];
   sortOption: SortOption;
+  isOffersLoading: boolean;
+  offersError: string | null;
 };

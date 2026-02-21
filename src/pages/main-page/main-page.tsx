@@ -1,18 +1,29 @@
 import { Helmet } from 'react-helmet-async';
 import { useState, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
 import { PageTitle } from '../../const/const';
 import OffersList from '../../components/offers-list/offers-list';
 import NavTabs from './components/nav-tabs';
 import PlacesSorting from './components/places-sorting';
 import Map from '../../components/map/map';
-import { selectActiveCity, selectOffers, selectSortOption } from '../../store/main-slice';
+import {
+  selectActiveCity,
+  selectOffers,
+  selectSortOption,
+  selectOffersLoading,
+  selectOffersError,
+  fetchOffers
+} from '../../store/main-slice';
 import { sortOffers } from '../../utils/sort-offers';
 
 export default function MainPage() {
+  const dispatch = useDispatch<AppDispatch>();
   const city = useSelector(selectActiveCity);
   const offers = useSelector(selectOffers);
   const sortOption = useSelector(selectSortOption);
+  const isLoading = useSelector(selectOffersLoading);
+  const error = useSelector(selectOffersError);
 
   const filteredOffers = useMemo(
     () => offers.filter((offer) => offer.city.name === city.name),
@@ -25,6 +36,48 @@ export default function MainPage() {
   );
 
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+
+  if (isLoading) {
+    return (
+      <>
+        <Helmet>
+          <title>{PageTitle.Main}</title>
+        </Helmet>
+        <main className="page__main page__main--index">
+          <h1 className="visually-hidden">Cities</h1>
+          <div className="container">
+            <p>Loading offers...</p>
+          </div>
+        </main>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Helmet>
+          <title>{PageTitle.Main}</title>
+        </Helmet>
+        <main className="page__main page__main--index">
+          <h1 className="visually-hidden">Cities</h1>
+          <div className="container">
+            <div className="server-error">
+              <p>{error}</p>
+              <button
+                type="button"
+                onClick={() => {
+                  dispatch(fetchOffers());
+                }}
+              >
+                Repeat
+              </button>
+            </div>
+          </div>
+        </main>
+      </>
+    );
+  }
 
   return (
     <>
