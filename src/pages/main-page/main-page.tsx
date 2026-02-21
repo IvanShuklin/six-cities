@@ -7,6 +7,7 @@ import OffersList from '../../components/offers-list/offers-list';
 import NavTabs from './components/nav-tabs';
 import PlacesSorting from './components/places-sorting';
 import Map from '../../components/map/map';
+import Spinner from '../../components/spinner/spinner';
 import {
   selectActiveCity,
   selectOffers,
@@ -36,22 +37,6 @@ export default function MainPage() {
   );
 
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
-
-  if (isLoading) {
-    return (
-      <>
-        <Helmet>
-          <title>{PageTitle.Main}</title>
-        </Helmet>
-        <main className="page__main page__main--index">
-          <h1 className="visually-hidden">Cities</h1>
-          <div className="container">
-            <p>Loading offers...</p>
-          </div>
-        </main>
-      </>
-    );
-  }
 
   if (error) {
     return (
@@ -92,17 +77,25 @@ export default function MainPage() {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">
-                {filteredOffers.length} places to stay in {city.name}
-              </b>
+              {!isLoading && (
+                <b className="places__found">
+                  {filteredOffers.length} places to stay in {city.name}
+                </b>
+              )}
 
               <PlacesSorting />
 
-              <OffersList
-                offers={sortedOffers}
-                onActiveOfferChange={setActiveOfferId}
-                className="cities__places-list places__list tabs__content"
-              />
+              {isLoading ? (
+                <div className="cities__spinner-wrapper">
+                  <Spinner />
+                </div>
+              ) : (
+                <OffersList
+                  offers={sortedOffers}
+                  onActiveOfferChange={setActiveOfferId}
+                  className="cities__places-list places__list tabs__content"
+                />
+              )}
             </section>
 
             <div className="cities__right-section">
