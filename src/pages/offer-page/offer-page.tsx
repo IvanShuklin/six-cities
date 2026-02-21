@@ -7,6 +7,7 @@ import OffersList from '../../components/offers-list/offers-list';
 import Review from '../../components/review/review';
 import Map from '../../components/map/map';
 import { selectOffers } from '../../store/main-slice';
+import { pluralize } from '../../utils/util';
 
 type OfferPageProps = {
   authorizationStatus: AuthorizationStatus;
@@ -82,10 +83,12 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">{currentOffer.type}</li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {currentOffer.bedrooms} Bedrooms
+                  {currentOffer.bedrooms}{' '}
+                  {pluralize(currentOffer.bedrooms, 'Bedroom', 'Bedrooms')}
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {currentOffer.maxAdults} adults
+                  Max {currentOffer.maxAdults}{' '}
+                  {pluralize(currentOffer.maxAdults, 'adult', 'adults')}
                 </li>
               </ul>
 

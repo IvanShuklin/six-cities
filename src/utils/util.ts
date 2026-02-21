@@ -7,3 +7,5 @@ export const formatReviewDate = (date: string) =>
     year: 'numeric',
     month: 'long',
   });
+
+export const pluralize = (count: number, singular: string, plural: string) => count === 1 ? singular : plural;
