@@ -5,6 +5,7 @@ import { MainState, State } from '../types/state';
 import { City } from '../types/city';
 import { Offer } from '../types/offer';
 import { AuthorizationStatus, SORTING_OPTIONS, SortOption } from '../const/const';
+import { checkAuth } from './api-actions';
 
 const initialState: MainState = {
   city: CITIES[0],
@@ -41,9 +42,6 @@ const mainSlice = createSlice({
     sortOptionChanged(state, action: PayloadAction<SortOption>) {
       state.sortOption = action.payload;
     },
-    requireAuthorization(state, action: PayloadAction<AuthorizationStatus>) {
-      state.authorizationStatus = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -58,11 +56,14 @@ const mainSlice = createSlice({
       .addCase(fetchOffers.rejected, (state, action) => {
         state.isOffersLoading = false;
         state.offersError = (action.payload as string) ?? action.error.message ?? 'Unknown error';
+      })
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.authorizationStatus = action.payload;
       });
   }
 });
 
-export const { cityChanged, sortOptionChanged, requireAuthorization } = mainSlice.actions;
+export const { cityChanged, sortOptionChanged } = mainSlice.actions;
 
 export const selectActiveCity = (state: State) => state.main.city;
 export const selectOffers = (state: State) => state.main.offers;

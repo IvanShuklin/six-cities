@@ -4,10 +4,13 @@ import App from './components/app/app';
 import { Provider } from 'react-redux';
 import 'leaflet/dist/leaflet.css';
 import { store } from './store';
+import { checkAuth } from './store/api-actions';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+store.dispatch(checkAuth());
 
 root.render(
   <React.StrictMode>
