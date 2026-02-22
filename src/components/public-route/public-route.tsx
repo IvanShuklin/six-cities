@@ -11,7 +11,7 @@ export default function PublicRoute({ children }: PublicRouteProps) {
   const authorizationStatus = useSelector(selectAuthorizationStatus);
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
-    return <Navigate to={AppRoute.Main} replace />;
+    return <Navigate to={AppRoute.Main} />;
   }
 
   return children;

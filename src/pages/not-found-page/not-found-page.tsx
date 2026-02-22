@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import './not-found-page.css';
 import { PageTitle, AppRoute } from '../../const/const';
 
 export default function NotFoundPage() {

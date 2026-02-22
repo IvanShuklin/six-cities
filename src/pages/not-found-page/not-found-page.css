@@ -1,0 +1,16 @@
+.page__main--not-found {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 52px;
+  align-items: center;
+}
+
+.not-found__link {
+  color: #0000ee;
+  text-decoration: none;
+}
+
+.not-found__link:hover {
+  text-decoration: underline;
+}
