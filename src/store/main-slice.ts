@@ -42,6 +42,9 @@ const mainSlice = createSlice({
     sortOptionChanged(state, action: PayloadAction<SortOption>) {
       state.sortOption = action.payload;
     },
+    requireAuthorization(state, action: PayloadAction<AuthorizationStatus>) {
+      state.authorizationStatus = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -69,7 +72,7 @@ const mainSlice = createSlice({
   }
 });
 
-export const { cityChanged, sortOptionChanged } = mainSlice.actions;
+export const { cityChanged, sortOptionChanged, requireAuthorization } = mainSlice.actions;
 
 export const selectActiveCity = (state: State) => state.main.city;
 export const selectOffers = (state: State) => state.main.offers;

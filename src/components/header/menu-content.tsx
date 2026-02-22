@@ -1,3 +1,8 @@
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
+import { dropToken } from '../../services/token';
+import { AuthorizationStatus } from '../../const/const';
+import { requireAuthorization } from '../../store/main-slice';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
 
@@ -20,10 +25,21 @@ export function ProfileMenuContent({ userEmail, favoritesCount }: ProfileMenuCon
 }
 
 export function SignOutMenuContent() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleSignOut = () => {
+    dropToken();
+    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+  };
+
   return (
-    <Link to={AppRoute.Login} className="header__nav-link">
+    <button
+      type="button"
+      className="header__nav-link"
+      onClick={handleSignOut}
+    >
       <span className="header__signout">Sign out</span>
-    </Link>
+    </button>
   );
 }
 

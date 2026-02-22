@@ -2,11 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { APIRoute, AuthorizationStatus } from '../const/const';
 import { saveToken } from '../services/token';
-
-export type AuthData = {
-  login: string;
-  password: string;
-};
+import { AuthData } from '../types/auth-data';
 
 export const checkAuth = createAsyncThunk<
   AuthorizationStatus,

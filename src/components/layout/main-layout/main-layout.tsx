@@ -1,16 +1,12 @@
 import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { AuthorizationStatus } from '../../../const/const';
 import { getFavoritesCount } from '../../../utils/util';
 import Header from '../../header/header';
-import { selectOffers } from '../../../store/main-slice';
+import { selectOffers, selectAuthorizationStatus } from '../../../store/main-slice';
 
-type MainLayoutProps = {
-  authorizationStatus: AuthorizationStatus;
-};
-
-export default function MainLayout({ authorizationStatus }: MainLayoutProps) {
+export default function MainLayout() {
   const offers = useSelector(selectOffers);
+  const authorizationStatus = useSelector(selectAuthorizationStatus);
   const favoritesCount = getFavoritesCount(offers);
 
   return (
