@@ -5,7 +5,7 @@ import { MainState, State } from '../types/state';
 import { City } from '../types/city';
 import { Offer } from '../types/offer';
 import { AuthorizationStatus, SORTING_OPTIONS, SortOption } from '../const/const';
-import { checkAuth } from './api-actions';
+import { checkAuth, login } from './api-actions';
 
 const initialState: MainState = {
   city: CITIES[0],
@@ -59,6 +59,12 @@ const mainSlice = createSlice({
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
         state.authorizationStatus = action.payload;
+      })
+      .addCase(login.fulfilled, (state) => {
+        state.authorizationStatus = AuthorizationStatus.Auth;
+      })
+      .addCase(login.rejected, (state) => {
+        state.authorizationStatus = AuthorizationStatus.NoAuth;
       });
   }
 });
@@ -70,5 +76,7 @@ export const selectOffers = (state: State) => state.main.offers;
 export const selectSortOption = (state: State) => state.main.sortOption;
 export const selectOffersLoading = (state: State) => state.main.isOffersLoading;
 export const selectOffersError = (state: State) => state.main.offersError;
+export const selectAuthorizationStatus = (state: State) =>
+  state.main.authorizationStatus;
 
 export default mainSlice.reducer;
