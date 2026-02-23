@@ -1,23 +1,21 @@
 import { Helmet } from 'react-helmet-async';
 import { useParams, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { AppRoute, PageTitle, AuthorizationStatus } from '../../const/const';
+import { AppRoute, PageTitle } from '../../const/const';
 import { comments } from '../../mocks/comments';
 import OffersList from '../../components/offers-list/offers-list';
 import Review from '../../components/review/review';
 import Map from '../../components/map/map';
 import { selectOffers } from '../../store/main-slice';
 import { pluralize } from '../../utils/util';
-
-type OfferPageProps = {
-  authorizationStatus: AuthorizationStatus;
-};
+import { selectAuthorizationStatus } from '../../store/main-slice';
 
 const NEARBY_OFFERS_LIMIT = 3;
 
-export default function OfferPage({ authorizationStatus }: OfferPageProps) {
+export default function OfferPage() {
   const { id } = useParams<{ id: string }>();
   const offers = useSelector(selectOffers);
+  const authorizationStatus = useSelector(selectAuthorizationStatus);
 
   const currentOffer = offers.find((offer) => offer.id === String(id));
 

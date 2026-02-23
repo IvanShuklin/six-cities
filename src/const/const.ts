@@ -46,6 +46,13 @@ export const AppRoute = {
   NotFound: '*',
 } as const;
 
+export const APIRoute = {
+  Offers: '/offers',
+  Login: '/login',
+  Logout: '/logout',
+  Favorite: '/favorite',
+} as const;
+
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',

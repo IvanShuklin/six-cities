@@ -1,7 +1,7 @@
 import { store } from '../store/index';
 import { City } from './city';
 import { Offer } from './offer';
-import { SortOption } from '../const/const';
+import { AuthorizationStatus, SortOption } from '../const/const';
 
 export type State = ReturnType<typeof store.getState>;
 
@@ -13,4 +13,5 @@ export type MainState = {
   sortOption: SortOption;
   isOffersLoading: boolean;
   offersError: string | null;
+  authorizationStatus: AuthorizationStatus;
 };

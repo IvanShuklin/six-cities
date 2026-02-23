@@ -1,3 +1,5 @@
+import './spinner.css';
+
 type SpinnerProps = {
   fullPage?: boolean;
 };

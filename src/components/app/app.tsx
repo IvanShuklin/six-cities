@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { useDispatch } from 'react-redux';
-import { AppRoute, AuthorizationStatus } from '../../const/const';
+import { AppRoute } from '../../const/const';
 import MainLayout from '../layout/main-layout/main-layout';
 import LoginLayout from '../layout/login-layout/login-layout';
 import FavoritesLayout from '../layout/favorites-layout/favorites-layout';
@@ -17,7 +17,6 @@ import { fetchOffers } from '../../store/main-slice';
 import { AppDispatch } from '../../store';
 
 export default function App() {
-  const authorizationStatus = AuthorizationStatus.Auth;
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -28,15 +27,11 @@ export default function App() {
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route
-            element={
-              <MainLayout authorizationStatus={authorizationStatus} />
-            }
-          >
+          <Route element={<MainLayout/>}>
             <Route path={AppRoute.Main} element={<MainPage />} />
             <Route
               path={AppRoute.Offer}
-              element={<OfferPage authorizationStatus={authorizationStatus} />}
+              element={<OfferPage/>}
             />
           </Route>
 
@@ -44,22 +39,18 @@ export default function App() {
             <Route
               path={AppRoute.Login}
               element={
-                <PublicRoute authorizationStatus={authorizationStatus}>
+                <PublicRoute>
                   <LoginPage />
                 </PublicRoute>
               }
             />
           </Route>
 
-          <Route
-            element={
-              <FavoritesLayout authorizationStatus={authorizationStatus} />
-            }
-          >
+          <Route element={<FavoritesLayout/>}>
             <Route
               path={AppRoute.Favorites}
               element={
-                <PrivateRoute authorizationStatus={authorizationStatus}>
+                <PrivateRoute>
                   <FavoritesPage />
                 </PrivateRoute>
               }
