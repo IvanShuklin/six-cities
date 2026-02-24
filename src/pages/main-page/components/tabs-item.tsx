@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
-import { cityChanged, selectActiveCity } from '../../../../store/main-slice';
-import { City } from '../../../../types/city';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { cityChanged, selectActiveCity } from '../../../store/main-slice';
+import { City } from '../../../types/city';
 
 type TabItemProps = {
   city: City;
