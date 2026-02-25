@@ -13,6 +13,7 @@ export function parseOffer(dto: OfferDto): Offer {
   return {
     ...dto,
     type: parseHousingType(dto.type),
+    description: dto.description.join(' '),
   };
 }
 
