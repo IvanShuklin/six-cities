@@ -4,12 +4,15 @@ import { Offer } from '../types/offer';
 import { Comment } from '../types/comment';
 import { State } from '../types/main-state';
 
+const NEARBY_LIMIT = 3;
+
 export type OfferState = {
   offer: Offer | null;
   nearbyOffers: Offer[];
   comments: Comment[];
   isOfferLoading: boolean;
   offerError: string | null;
+  isSendingComment: boolean;
 };
 
 const initialState: OfferState = {
@@ -18,6 +21,7 @@ const initialState: OfferState = {
   comments: [],
   isOfferLoading: false,
   offerError: null,
+  isSendingComment: false,
 };
 
 export const fetchOfferById = createAsyncThunk<
@@ -68,6 +72,25 @@ export const fetchComments = createAsyncThunk<
   }
 );
 
+export const sendComment = createAsyncThunk<
+  Comment,
+  { offerId: string; rating: number; comment: string },
+  { extra: AxiosInstance; rejectValue: string }
+>(
+  'offer/sendComment',
+  async ({ offerId, rating, comment }, { extra: api, rejectWithValue }) => {
+    try {
+      const { data } = await api.post<Comment>(
+        `/comments/${offerId}`,
+        { rating, comment }
+      );
+      return data;
+    } catch {
+      return rejectWithValue('Failed to send comment.');
+    }
+  }
+);
+
 const offerSlice = createSlice({
   name: 'offer',
   initialState,
@@ -93,10 +116,20 @@ const offerSlice = createSlice({
         state.offerError = action.payload ?? action.error.message ?? 'Unknown error';
       })
       .addCase(fetchNearbyOffers.fulfilled, (state, action: PayloadAction<Offer[]>) => {
-        state.nearbyOffers = action.payload;
+        state.nearbyOffers = action.payload.slice(0, NEARBY_LIMIT);
       })
       .addCase(fetchComments.fulfilled, (state, action: PayloadAction<Comment[]>) => {
         state.comments = action.payload;
+      })
+      .addCase(sendComment.pending, (state) => {
+        state.isSendingComment = true;
+      })
+      .addCase(sendComment.fulfilled, (state, action: PayloadAction<Comment>) => {
+        state.comments = [action.payload, ...state.comments];
+        state.isSendingComment = false;
+      })
+      .addCase(sendComment.rejected, (state) => {
+        state.isSendingComment = false;
       });
   }
 });
@@ -108,5 +141,7 @@ export const selectNearbyOffers = (state: State) => state.offer.nearbyOffers;
 export const selectComments = (state: State) => state.offer.comments;
 export const selectOfferLoading = (state: State) => state.offer.isOfferLoading;
 export const selectOfferError = (state: State) => state.offer.offerError;
+export const selectIsSendingComment = (state: State) =>
+  state.offer.isSendingComment;
 
 export default offerSlice.reducer;
