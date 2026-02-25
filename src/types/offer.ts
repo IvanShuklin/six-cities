@@ -25,7 +25,7 @@ export type Offer = {
     isPro: boolean;
   };
 
-  description: string[];
+  description: string;
 
   location: Location;
 

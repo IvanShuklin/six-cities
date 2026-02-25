@@ -3,11 +3,8 @@ import { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { PageTitle } from '../../const/const';
-import OffersList from '../../components/offers-list/offers-list';
 import NavTabs from './components/nav-tabs';
-import PlacesSorting from './components/places-sorting';
 import Map from '../../components/map/map';
-import Spinner from '../../components/spinner/spinner';
 import {
   selectActiveCity,
   selectOffers,
@@ -17,6 +14,7 @@ import {
   fetchOffers
 } from '../../store/main-slice';
 import { sortOffers } from '../../utils/sort-offers';
+import { CitiesPlacesBlock } from './components/cities-places-block';
 
 export default function MainPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -38,6 +36,12 @@ export default function MainPage() {
 
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
+  const isEmpty = !isLoading && filteredOffers.length === 0;
+
+  const handleRetryClick = () => {
+    dispatch(fetchOffers());
+  };
+
   if (error) {
     return (
       <>
@@ -49,12 +53,7 @@ export default function MainPage() {
           <div className="container">
             <div className="server-error">
               <p>{error}</p>
-              <button
-                type="button"
-                onClick={() => {
-                  dispatch(fetchOffers());
-                }}
-              >
+              <button type="button" onClick={handleRetryClick}>
                 Repeat
               </button>
             </div>
@@ -70,38 +69,40 @@ export default function MainPage() {
         <title>{PageTitle.Main}</title>
       </Helmet>
 
-      <main className="page__main page__main--index">
+      <main
+        className={`page__main page__main--index ${
+          isEmpty ? 'page__main--index-empty' : ''
+        }`}
+      >
         <h1 className="visually-hidden">Cities</h1>
         <NavTabs />
+
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              {!isLoading && (
-                <b className="places__found">
-                  {filteredOffers.length} places to stay in {city.name}
-                </b>
-              )}
-
-              <PlacesSorting />
-
-              {isLoading ? (
-                <div className="cities__spinner-wrapper">
-                  <Spinner />
-                </div>
-              ) : (
-                <OffersList
-                  offers={sortedOffers}
-                  onActiveOfferChange={setActiveOfferId}
-                  className="cities__places-list places__list tabs__content"
-                />
-              )}
-            </section>
+          <div
+            className={`cities__places-container ${
+              isEmpty ? 'cities__places-container--empty' : ''
+            } container`}
+          >
+            <CitiesPlacesBlock
+              isLoading={isLoading}
+              isEmpty={isEmpty}
+              cityName={city.name}
+              offers={sortedOffers}
+              onActiveOfferChange={setActiveOfferId}
+            />
 
             <div className="cities__right-section">
-              <section className="cities__map map">
-                <Map city={city} offers={sortedOffers} activeOfferId={activeOfferId} />
-              </section>
+              {isEmpty ? (
+                <div className="cities__map map" />
+              ) : (
+                <section className="cities__map map">
+                  <Map
+                    city={city}
+                    offers={sortedOffers}
+                    activeOfferId={activeOfferId}
+                  />
+                </section>
+              )}
             </div>
           </div>
         </div>

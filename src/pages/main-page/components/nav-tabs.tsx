@@ -1,4 +1,4 @@
-import TabsItem from './tabs-item/tabs-item';
+import TabsItem from './tabs-item';
 import { CITIES } from '../../../const/cities';
 
 export default function NavTabs() {

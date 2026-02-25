@@ -1,31 +1,60 @@
 import { Helmet } from 'react-helmet-async';
+import { useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
 import { AppRoute, PageTitle } from '../../const/const';
-import { comments } from '../../mocks/comments';
 import OffersList from '../../components/offers-list/offers-list';
 import Review from '../../components/review/review';
 import Map from '../../components/map/map';
-import { selectOffers } from '../../store/main-slice';
 import { pluralize } from '../../utils/util';
 import { selectAuthorizationStatus } from '../../store/main-slice';
-
-const NEARBY_OFFERS_LIMIT = 3;
+import {
+  fetchOfferById,
+  fetchNearbyOffers,
+  fetchComments,
+  clearOffer,
+  selectOffer,
+  selectNearbyOffers,
+  selectComments,
+  selectOfferLoading,
+  selectOfferError
+} from '../../store/offer-slice';
 
 export default function OfferPage() {
   const { id } = useParams<{ id: string }>();
-  const offers = useSelector(selectOffers);
+  const dispatch = useDispatch<AppDispatch>();
+
   const authorizationStatus = useSelector(selectAuthorizationStatus);
+  const currentOffer = useSelector(selectOffer);
+  const nearbyOffers = useSelector(selectNearbyOffers);
+  const comments = useSelector(selectComments);
+  const isLoading = useSelector(selectOfferLoading);
+  const error = useSelector(selectOfferError);
 
-  const currentOffer = offers.find((offer) => offer.id === String(id));
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchOfferById(id));
+      dispatch(fetchNearbyOffers(id));
+      dispatch(fetchComments(id));
+    }
 
-  if (!currentOffer) {
+    return () => {
+      dispatch(clearOffer());
+    };
+  }, [id, dispatch]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
     return <Navigate to={AppRoute.NotFound} />;
   }
 
-  const nearbyOffers = offers
-    .filter((offer) => offer.id !== currentOffer.id)
-    .slice(0, NEARBY_OFFERS_LIMIT);
+  if (!currentOffer) {
+    return null;
+  }
 
   const offersForMap = [currentOffer, ...nearbyOffers];
 
@@ -123,11 +152,9 @@ export default function OfferPage() {
                 </div>
 
                 <div className="offer__description">
-                  {currentOffer.description.map((text) => (
-                    <p key={text} className="offer__text">
-                      {text}
-                    </p>
-                  ))}
+                  <p className="offer__text">
+                    {currentOffer.description}
+                  </p>
                 </div>
               </div>
               <section className="offer__reviews reviews">

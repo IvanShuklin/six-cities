@@ -1,4 +1,10 @@
 import { Fragment, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { AppDispatch } from '../../store';
+import { sendComment, selectIsSendingComment } from '../../store/offer-slice';
+
+const REVIEW_MIN_LENGTH = 50;
 
 const ratings = [
   { value: 5, label: 'perfect' },
@@ -9,19 +15,34 @@ const ratings = [
 ] as const;
 
 export default function ReviewForm() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { id } = useParams<{ id: string }>();
   const [rating, setRating] = useState<number | null>(null);
   const [comment, setComment] = useState('');
+  const isSendingComment = useSelector(selectIsSendingComment);
 
   const isSubmitDisabled =
-  rating === null || comment.length < 50;
+  rating === null ||
+  comment.length < REVIEW_MIN_LENGTH ||
+  isSendingComment;
 
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    window.console.log({
-      rating,
-      comment,
-    });
+    if (!id || rating === null) {
+      return;
+    }
+
+    dispatch(
+      sendComment({
+        offerId: id,
+        rating,
+        comment,
+      })
+    );
+
+    setRating(null);
+    setComment('');
   };
 
   return (
@@ -62,6 +83,7 @@ export default function ReviewForm() {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
         onChange={(evt) => setComment(evt.target.value)}
+        disabled={isSendingComment}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

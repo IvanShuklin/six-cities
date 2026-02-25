@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { CITIES } from '../const/cities';
-import { MainState, State } from '../types/state';
+import { MainState, State } from '../types/main-state';
 import { City } from '../types/city';
 import { Offer } from '../types/offer';
 import { AuthorizationStatus, SORTING_OPTIONS, SortOption } from '../const/const';
