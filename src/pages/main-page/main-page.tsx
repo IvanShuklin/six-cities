@@ -1,46 +1,30 @@
 import { Helmet } from 'react-helmet-async';
-import { useState, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store';
+import { useState, useCallback } from 'react';
 import { PageTitle } from '../../const/const';
 import NavTabs from './components/nav-tabs';
 import Map from '../../components/map/map';
-import {
-  selectActiveCity,
-  selectOffers,
-  selectSortOption,
-  selectOffersLoading,
-  selectOffersError,
-  fetchOffers
-} from '../../store/main-slice';
-import { sortOffers } from '../../utils/sort-offers';
 import { CitiesPlacesBlock } from './components/cities-places-block';
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { fetchOffers, selectActiveCity, selectOffersLoading, selectOffersError } from '../../store/main-slice';
+import { selectSortedOffers, selectIsEmpty } from '../../store/main-selectors';
 
 export default function MainPage() {
-  const dispatch = useDispatch<AppDispatch>();
-  const city = useSelector(selectActiveCity);
-  const offers = useSelector(selectOffers);
-  const sortOption = useSelector(selectSortOption);
-  const isLoading = useSelector(selectOffersLoading);
-  const error = useSelector(selectOffersError);
-
-  const filteredOffers = useMemo(
-    () => offers.filter((offer) => offer.city.name === city.name),
-    [offers, city.name]
-  );
-
-  const sortedOffers = useMemo(
-    () => sortOffers(filteredOffers, sortOption),
-    [filteredOffers, sortOption]
-  );
+  const dispatch = useAppDispatch();
+  const city = useAppSelector(selectActiveCity);
+  const sortedOffers = useAppSelector(selectSortedOffers);
+  const isLoading = useAppSelector(selectOffersLoading);
+  const error = useAppSelector(selectOffersError);
+  const isEmpty = useAppSelector(selectIsEmpty);
 
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
-  const isEmpty = !isLoading && filteredOffers.length === 0;
-
-  const handleRetryClick = () => {
+  const handleRetryClick = useCallback(() => {
     dispatch(fetchOffers());
-  };
+  }, [dispatch]);
+
+  const handleActiveOfferChange = useCallback((id: string | null) => {
+    setActiveOfferId(id);
+  }, []);
 
   if (error) {
     return (
@@ -88,7 +72,7 @@ export default function MainPage() {
               isEmpty={isEmpty}
               cityName={city.name}
               offers={sortedOffers}
-              onActiveOfferChange={setActiveOfferId}
+              onActiveOfferChange={handleActiveOfferChange}
             />
 
             <div className="cities__right-section">
