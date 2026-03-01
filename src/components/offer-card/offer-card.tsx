@@ -1,3 +1,4 @@
+import React, { useCallback } from 'react';
 import { Link, generatePath } from 'react-router-dom';
 import { Offer } from '../../types/offer';
 import { OFFER_TYPE_LABEL, AppRoute } from '../../const/const';
@@ -7,18 +8,26 @@ type OfferCardProps = {
   onActiveOfferChange?: (offerId: string | null) => void;
 }
 
-export default function OfferCard({offer, onActiveOfferChange}: OfferCardProps) {
+function OfferCard ({offer, onActiveOfferChange}: OfferCardProps) {
   const ratingWidth = `${(offer.rating / 5) * 100}%`;
 
   const bookmarkButtonClassName = `place-card__bookmark-button button ${
     offer.isFavorite ? 'place-card__bookmark-button--active' : ''
   }`;
 
+  const handleMouseEnter = useCallback(() => {
+    onActiveOfferChange?.(offer.id);
+  }, [onActiveOfferChange, offer.id]);
+
+  const handleMouseLeave = useCallback(() => {
+    onActiveOfferChange?.(null);
+  }, [onActiveOfferChange]);
+
   return (
     <article
       className="cities__card place-card"
-      onMouseEnter={() => onActiveOfferChange?.(offer.id)}
-      onMouseLeave={() => onActiveOfferChange?.(null)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {offer.isPremium && (
         <div className="place-card__mark">
@@ -80,3 +89,5 @@ export default function OfferCard({offer, onActiveOfferChange}: OfferCardProps) 
     </article>
   );
 }
+
+export default React.memo(OfferCard);

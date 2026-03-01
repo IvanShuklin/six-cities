@@ -1,4 +1,3 @@
-import React from 'react';
 import OffersList from '../../../components/offers-list/offers-list';
 import PlacesSorting from './places-sorting';
 import Spinner from '../../../components/spinner/spinner';
@@ -13,7 +12,7 @@ type Props = {
   onActiveOfferChange: (id: string | null) => void;
 };
 
-function CitiesPlacesBlockComponent({
+export default function CitiesPlacesBlock({
   isLoading,
   isEmpty,
   cityName,
@@ -65,5 +64,3 @@ function CitiesPlacesBlockComponent({
     </section>
   );
 }
-
-export const CitiesPlacesBlock = React.memo(CitiesPlacesBlockComponent);

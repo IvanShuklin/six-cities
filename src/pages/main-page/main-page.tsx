@@ -3,7 +3,7 @@ import { useState, useCallback } from 'react';
 import { PageTitle } from '../../const/const';
 import NavTabs from './components/nav-tabs';
 import Map from '../../components/map/map';
-import { CitiesPlacesBlock } from './components/cities-places-block';
+import CitiesPlacesBlock from './components/cities-places-block';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { fetchOffers, selectActiveCity, selectOffersLoading, selectOffersError } from '../../store/main-slice';
 import { selectSortedOffers, selectIsEmpty } from '../../store/main-selectors';
