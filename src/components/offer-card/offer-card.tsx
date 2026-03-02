@@ -8,7 +8,7 @@ type OfferCardProps = {
   onActiveOfferChange?: (offerId: string | null) => void;
 }
 
-function OfferCard ({offer, onActiveOfferChange}: OfferCardProps) {
+function OfferCardRender ({offer, onActiveOfferChange}: OfferCardProps) {
   const ratingWidth = `${(offer.rating / 5) * 100}%`;
 
   const bookmarkButtonClassName = `place-card__bookmark-button button ${
@@ -90,4 +90,6 @@ function OfferCard ({offer, onActiveOfferChange}: OfferCardProps) {
   );
 }
 
-export default React.memo(OfferCard);
+const OfferCard = React.memo(OfferCardRender);
+
+export default OfferCard;
