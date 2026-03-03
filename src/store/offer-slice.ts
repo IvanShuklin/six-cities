@@ -3,93 +3,74 @@ import { AxiosInstance } from 'axios';
 import { Offer } from '../types/offer';
 import { Comment } from '../types/comment';
 import { State } from '../types/main-state';
+import { OfferState } from '../types/offer-state';
+import { RequestStatus } from '../const/const';
 
 const NEARBY_LIMIT = 3;
-
-export type OfferState = {
-  offer: Offer | null;
-  nearbyOffers: Offer[];
-  comments: Comment[];
-  isOfferLoading: boolean;
-  offerError: string | null;
-  isSendingComment: boolean;
-};
 
 const initialState: OfferState = {
   offer: null,
   nearbyOffers: [],
   comments: [],
-  isOfferLoading: false,
+  offerLoadingStatus: RequestStatus.Idle,
+  sendingCommentStatus: RequestStatus.Idle,
   offerError: null,
-  isSendingComment: false,
 };
 
 export const fetchOfferById = createAsyncThunk<
   Offer,
   string,
   { extra: AxiosInstance; rejectValue: string }
->(
-  'offer/fetchOfferById',
-  async (id, { extra: api, rejectWithValue }) => {
-    try {
-      const { data } = await api.get<Offer>(`/offers/${id}`);
-      return data;
-    } catch {
-      return rejectWithValue('Failed to load offer.');
-    }
+>('offer/fetchOfferById', async (id, { extra: api, rejectWithValue }) => {
+  try {
+    const { data } = await api.get<Offer>(`/offers/${id}`);
+    return data;
+  } catch {
+    return rejectWithValue('Failed to load offer.');
   }
-);
+});
 
 export const fetchNearbyOffers = createAsyncThunk<
   Offer[],
   string,
   { extra: AxiosInstance; rejectValue: string }
->(
-  'offer/fetchNearbyOffers',
-  async (id, { extra: api, rejectWithValue }) => {
-    try {
-      const { data } = await api.get<Offer[]>(`/offers/${id}/nearby`);
-      return data;
-    } catch {
-      return rejectWithValue('Failed to load nearby offers.');
-    }
+>('offer/fetchNearbyOffers', async (id, { extra: api, rejectWithValue }) => {
+  try {
+    const { data } = await api.get<Offer[]>(`/offers/${id}/nearby`);
+    return data;
+  } catch {
+    return rejectWithValue('Failed to load nearby offers.');
   }
-);
+});
 
 export const fetchComments = createAsyncThunk<
   Comment[],
   string,
   { extra: AxiosInstance; rejectValue: string }
->(
-  'offer/fetchComments',
-  async (id, { extra: api, rejectWithValue }) => {
-    try {
-      const { data } = await api.get<Comment[]>(`/comments/${id}`);
-      return data;
-    } catch {
-      return rejectWithValue('Failed to load comments.');
-    }
+>('offer/fetchComments', async (id, { extra: api, rejectWithValue }) => {
+  try {
+    const { data } = await api.get<Comment[]>(`/comments/${id}`);
+    return data;
+  } catch {
+    return rejectWithValue('Failed to load comments.');
   }
-);
+});
 
 export const sendComment = createAsyncThunk<
   Comment,
   { offerId: string; rating: number; comment: string },
   { extra: AxiosInstance; rejectValue: string }
->(
-  'offer/sendComment',
-  async ({ offerId, rating, comment }, { extra: api, rejectWithValue }) => {
-    try {
-      const { data } = await api.post<Comment>(
-        `/comments/${offerId}`,
-        { rating, comment }
-      );
-      return data;
-    } catch {
-      return rejectWithValue('Failed to send comment.');
-    }
+>('offer/sendComment', async ({ offerId, rating, comment }, { extra: api, rejectWithValue }) => {
+  try {
+    const { data } = await api.post<Comment>(`/comments/${offerId}`, {
+      rating,
+      comment,
+    });
+    return data;
+  } catch {
+    return rejectWithValue('Failed to send comment.');
   }
-);
+});
 
 const offerSlice = createSlice({
   name: 'offer',
@@ -99,20 +80,23 @@ const offerSlice = createSlice({
       state.offer = null;
       state.nearbyOffers = [];
       state.comments = [];
+      state.offerLoadingStatus = RequestStatus.Idle;
+      state.sendingCommentStatus = RequestStatus.Idle;
+      state.offerError = null;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchOfferById.pending, (state) => {
-        state.isOfferLoading = true;
+        state.offerLoadingStatus = RequestStatus.Loading;
         state.offerError = null;
       })
       .addCase(fetchOfferById.fulfilled, (state, action: PayloadAction<Offer>) => {
         state.offer = action.payload;
-        state.isOfferLoading = false;
+        state.offerLoadingStatus = RequestStatus.Success;
       })
       .addCase(fetchOfferById.rejected, (state, action) => {
-        state.isOfferLoading = false;
+        state.offerLoadingStatus = RequestStatus.Failed;
         state.offerError = action.payload ?? action.error.message ?? 'Unknown error';
       })
       .addCase(fetchNearbyOffers.fulfilled, (state, action: PayloadAction<Offer[]>) => {
@@ -122,14 +106,14 @@ const offerSlice = createSlice({
         state.comments = action.payload;
       })
       .addCase(sendComment.pending, (state) => {
-        state.isSendingComment = true;
+        state.sendingCommentStatus = RequestStatus.Loading;
       })
       .addCase(sendComment.fulfilled, (state, action: PayloadAction<Comment>) => {
         state.comments = [action.payload, ...state.comments];
-        state.isSendingComment = false;
+        state.sendingCommentStatus = RequestStatus.Success;
       })
       .addCase(sendComment.rejected, (state) => {
-        state.isSendingComment = false;
+        state.sendingCommentStatus = RequestStatus.Failed;
       });
   }
 });
@@ -139,9 +123,12 @@ export const { clearOffer } = offerSlice.actions;
 export const selectOffer = (state: State) => state.offer.offer;
 export const selectNearbyOffers = (state: State) => state.offer.nearbyOffers;
 export const selectComments = (state: State) => state.offer.comments;
-export const selectOfferLoading = (state: State) => state.offer.isOfferLoading;
+
+export const selectOfferLoadingStatus = (state: State) => state.offer.offerLoadingStatus;
+export const selectIsOfferLoading = (state: State) => state.offer.offerLoadingStatus === RequestStatus.Loading;
 export const selectOfferError = (state: State) => state.offer.offerError;
-export const selectIsSendingComment = (state: State) =>
-  state.offer.isSendingComment;
+
+export const selectSendingCommentStatus = (state: State) => state.offer.sendingCommentStatus;
+export const selectIsSendingComment = (state: State) => state.offer.sendingCommentStatus === RequestStatus.Loading;
 
 export default offerSlice.reducer;

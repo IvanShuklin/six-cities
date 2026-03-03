@@ -1,8 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store';
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { AppRoute, PageTitle } from '../../const/const';
 import OffersList from '../../components/offers-list/offers-list';
 import Review from '../../components/review/review';
@@ -17,20 +16,20 @@ import {
   selectOffer,
   selectNearbyOffers,
   selectComments,
-  selectOfferLoading,
+  selectIsOfferLoading,
   selectOfferError
 } from '../../store/offer-slice';
 
 export default function OfferPage() {
   const { id } = useParams<{ id: string }>();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
-  const authorizationStatus = useSelector(selectAuthorizationStatus);
-  const currentOffer = useSelector(selectOffer);
-  const nearbyOffers = useSelector(selectNearbyOffers);
-  const comments = useSelector(selectComments);
-  const isLoading = useSelector(selectOfferLoading);
-  const error = useSelector(selectOfferError);
+  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
+  const currentOffer = useAppSelector(selectOffer);
+  const nearbyOffers = useAppSelector(selectNearbyOffers);
+  const comments = useAppSelector(selectComments);
+  const isLoading = useAppSelector(selectIsOfferLoading);
+  const error = useAppSelector(selectOfferError);
 
   useEffect(() => {
     if (id) {

@@ -4,14 +4,19 @@ import { CITIES } from '../const/cities';
 import { MainState, State } from '../types/main-state';
 import { City } from '../types/city';
 import { Offer } from '../types/offer';
-import { AuthorizationStatus, SORTING_OPTIONS, SortOption } from '../const/const';
+import {
+  AuthorizationStatus,
+  SORTING_OPTIONS,
+  SortOption,
+  RequestStatus,
+} from '../const/const';
 import { checkAuth, login } from './api-actions';
 
 const initialState: MainState = {
   city: CITIES[0],
   offers: [],
   sortOption: SORTING_OPTIONS.POPULAR,
-  isOffersLoading: false,
+  offersLoadingStatus: RequestStatus.Idle,
   offersError: null,
   authorizationStatus: AuthorizationStatus.Unknown,
 };
@@ -20,17 +25,16 @@ export const fetchOffers = createAsyncThunk<
   Offer[],
   void,
   { extra: AxiosInstance; rejectValue: string }
->(
-  'main/fetchOffers',
-  async (_arg, { extra: api, rejectWithValue }) => {
-    try {
-      const response = await api.get<Offer[]>('/offers');
-      return response.data;
-    } catch (err) {
-      return rejectWithValue('Failed to load offers. Check your connection to the server.');
-    }
+>('main/fetchOffers', async (_arg, { extra: api, rejectWithValue }) => {
+  try {
+    const response = await api.get<Offer[]>('/offers');
+    return response.data;
+  } catch {
+    return rejectWithValue(
+      'Failed to load offers. Check your connection to the server.'
+    );
   }
-);
+});
 
 const mainSlice = createSlice({
   name: 'main',
@@ -49,16 +53,20 @@ const mainSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchOffers.pending, (state) => {
-        state.isOffersLoading = true;
+        state.offersLoadingStatus = RequestStatus.Loading;
         state.offersError = null;
       })
-      .addCase(fetchOffers.fulfilled, (state, action: PayloadAction<Offer[]>) => {
-        state.offers = action.payload;
-        state.isOffersLoading = false;
-      })
+      .addCase(
+        fetchOffers.fulfilled,
+        (state, action: PayloadAction<Offer[]>) => {
+          state.offers = action.payload;
+          state.offersLoadingStatus = RequestStatus.Success;
+        }
+      )
       .addCase(fetchOffers.rejected, (state, action) => {
-        state.isOffersLoading = false;
-        state.offersError = (action.payload as string) ?? action.error.message ?? 'Unknown error';
+        state.offersLoadingStatus = RequestStatus.Failed;
+        state.offersError =
+          action.payload ?? action.error.message ?? 'Unknown error';
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
         state.authorizationStatus = action.payload;
@@ -69,16 +77,28 @@ const mainSlice = createSlice({
       .addCase(login.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       });
-  }
+  },
 });
 
-export const { cityChanged, sortOptionChanged, requireAuthorization } = mainSlice.actions;
+export const {
+  cityChanged,
+  sortOptionChanged,
+  requireAuthorization
+} = mainSlice.actions;
 
 export const selectActiveCity = (state: State) => state.main.city;
 export const selectOffers = (state: State) => state.main.offers;
 export const selectSortOption = (state: State) => state.main.sortOption;
-export const selectOffersLoading = (state: State) => state.main.isOffersLoading;
-export const selectOffersError = (state: State) => state.main.offersError;
+
+export const selectOffersLoadingStatus = (state: State) =>
+  state.main.offersLoadingStatus;
+
+export const selectIsOffersLoading = (state: State) =>
+  state.main.offersLoadingStatus === RequestStatus.Loading;
+
+export const selectOffersError = (state: State) =>
+  state.main.offersError;
+
 export const selectAuthorizationStatus = (state: State) =>
   state.main.authorizationStatus;
 

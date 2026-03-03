@@ -4,7 +4,7 @@ import {
   selectActiveCity,
   selectOffers,
   selectSortOption,
-  selectOffersLoading
+  selectIsOffersLoading
 } from './main-slice';
 
 export const selectFilteredOffers = createSelector(
@@ -20,6 +20,6 @@ export const selectSortedOffers = createSelector(
 );
 
 export const selectIsEmpty = createSelector(
-  [selectFilteredOffers, selectOffersLoading],
+  [selectFilteredOffers, selectIsOffersLoading],
   (filteredOffers, isLoading) => !isLoading && filteredOffers.length === 0
 );

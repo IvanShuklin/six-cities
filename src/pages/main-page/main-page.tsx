@@ -5,14 +5,20 @@ import NavTabs from './components/nav-tabs';
 import Map from '../../components/map/map';
 import CitiesPlacesBlock from './components/cities-places-block';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
-import { fetchOffers, selectActiveCity, selectOffersLoading, selectOffersError } from '../../store/main-slice';
+import {
+  fetchOffers,
+  selectActiveCity,
+  selectIsOffersLoading,
+  selectOffersError,
+} from '../../store/main-slice';
 import { selectSortedOffers, selectIsEmpty } from '../../store/main-selectors';
 
 export default function MainPage() {
   const dispatch = useAppDispatch();
+
   const city = useAppSelector(selectActiveCity);
   const sortedOffers = useAppSelector(selectSortedOffers);
-  const isLoading = useAppSelector(selectOffersLoading);
+  const isLoading = useAppSelector(selectIsOffersLoading);
   const error = useAppSelector(selectOffersError);
   const isEmpty = useAppSelector(selectIsEmpty);
 
