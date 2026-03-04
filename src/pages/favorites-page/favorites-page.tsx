@@ -1,16 +1,35 @@
 import { Helmet } from 'react-helmet-async';
-import { Link, generatePath } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { PageTitle, AppRoute } from '../../const/const';
-import Footer from './components/footer';
-import { selectOffers } from '../../store/main-slice';
+import { Link, generatePath, useNavigate } from 'react-router-dom';
+import { PageTitle, AppRoute, AuthorizationStatus } from '../../const/const';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import {
+  selectOffers,
+  changeFavoriteStatus,
+  selectAuthorizationStatus
+} from '../../store/main-slice';
 import { Offer } from '../../types/offer';
+import Footer from './components/footer';
 
 export default function FavoritesPage() {
-  const offers = useSelector(selectOffers);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
+  const offers = useAppSelector(selectOffers);
 
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
   const isFavoriteOffersEmpty = favoriteOffers.length === 0;
+
+  const handleBookmarkClick = (offerId: string) => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+      return;
+    }
+
+    dispatch(changeFavoriteStatus({
+      offerId,
+      status: 0
+    }));
+  };
 
   return (
     <>
@@ -54,7 +73,11 @@ export default function FavoritesPage() {
                               <span className="place-card__price-text">/&nbsp;night</span>
                             </div>
 
-                            <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+                            <button
+                              className="place-card__bookmark-button place-card__bookmark-button--active button"
+                              type="button"
+                              onClick={() => handleBookmarkClick(offer.id)}
+                            >
                               <svg className="place-card__bookmark-icon" width={18} height={19}>
                                 <use xlinkHref="#icon-bookmark" />
                               </svg>
