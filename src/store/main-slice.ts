@@ -10,12 +10,10 @@ import { MainState, State } from '../types/main-state';
 import { City } from '../types/city';
 import { Offer } from '../types/offer';
 import {
-  AuthorizationStatus,
   SORTING_OPTIONS,
   SortOption,
   RequestStatus,
 } from '../const/const';
-import { checkAuth, login } from './api-actions';
 
 const initialState: MainState = {
   city: CITIES[0],
@@ -23,7 +21,6 @@ const initialState: MainState = {
   sortOption: SORTING_OPTIONS.POPULAR,
   offersLoadingStatus: RequestStatus.Idle,
   offersError: null,
-  authorizationStatus: AuthorizationStatus.Unknown,
 };
 
 export const fetchOffers = createAsyncThunk<
@@ -69,9 +66,6 @@ const mainSlice = createSlice({
     sortOptionChanged(state, action: PayloadAction<SortOption>) {
       state.sortOption = action.payload;
     },
-    requireAuthorization(state, action: PayloadAction<AuthorizationStatus>) {
-      state.authorizationStatus = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -90,15 +84,6 @@ const mainSlice = createSlice({
         state.offersError =
           action.payload ?? action.error.message ?? 'Unknown error';
       })
-      .addCase(checkAuth.fulfilled, (state, action) => {
-        state.authorizationStatus = action.payload;
-      })
-      .addCase(login.fulfilled, (state) => {
-        state.authorizationStatus = AuthorizationStatus.Auth;
-      })
-      .addCase(login.rejected, (state) => {
-        state.authorizationStatus = AuthorizationStatus.NoAuth;
-      })
       .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
         const updatedOffer = action.payload;
 
@@ -112,7 +97,6 @@ const mainSlice = createSlice({
 export const {
   cityChanged,
   sortOptionChanged,
-  requireAuthorization
 } = mainSlice.actions;
 
 export const selectActiveCity = (state: State) => state.main.city;
@@ -124,9 +108,6 @@ export const selectOffersLoadingStatus = (state: State) =>
 
 export const selectOffersError = (state: State) =>
   state.main.offersError;
-
-export const selectAuthorizationStatus = (state: State) =>
-  state.main.authorizationStatus;
 
 export const selectFavoritesCount = createSelector(
   [selectOffers],

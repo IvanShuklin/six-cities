@@ -2,8 +2,8 @@ import OffersList from '../../../components/offers-list/offers-list';
 import PlacesSorting from './places-sorting';
 import Spinner from '../../../components/spinner/spinner';
 import { pluralize } from '../../../utils/util';
-import type { Offer } from '../../../types/offer';
 import { RequestStatus } from '../../../const/const';
+import type { Offer } from '../../../types/offer';
 
 type Props = {
   status: RequestStatus;

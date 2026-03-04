@@ -1,12 +1,11 @@
 import { FormEvent } from 'react';
-import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { login } from '../../store/api-actions';
-import { AppDispatch } from '../../store';
+import { useAppDispatch } from '../../store/hooks';
 import { PageTitle } from '../../const/const';
 
 export default function LoginPage() {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();

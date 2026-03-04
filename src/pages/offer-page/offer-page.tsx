@@ -7,7 +7,8 @@ import OffersList from '../../components/offers-list/offers-list';
 import Review from '../../components/review/review';
 import Map from '../../components/map/map';
 import { pluralize } from '../../utils/util';
-import { selectAuthorizationStatus, changeFavoriteStatus } from '../../store/main-slice';
+import { changeFavoriteStatus } from '../../store/main-slice';
+import { selectAuthStatus } from '../../store/auth-slice';
 import {
   fetchOfferById,
   fetchNearbyOffers,
@@ -25,7 +26,7 @@ export default function OfferPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
+  const authorizationStatus = useAppSelector(selectAuthStatus);
   const currentOffer = useAppSelector(selectOffer);
   const nearbyOffers = useAppSelector(selectNearbyOffers);
   const comments = useAppSelector(selectComments);

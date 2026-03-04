@@ -1,10 +1,8 @@
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store';
-import { dropToken } from '../../services/token';
-import { AuthorizationStatus } from '../../const/const';
-import { requireAuthorization } from '../../store/main-slice';
 import { Link } from 'react-router-dom';
+import { dropToken } from '../../services/token';
 import { AppRoute } from '../../const/const';
+import { useAppDispatch } from '../../store/hooks';
+import { logout } from '../../store/auth-slice';
 
 type ProfileMenuContentProps = {
   userEmail: string;
@@ -25,11 +23,11 @@ export function ProfileMenuContent({ userEmail, favoritesCount }: ProfileMenuCon
 }
 
 export function SignOutMenuContent() {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const handleSignOut = () => {
     dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(logout());
   };
 
   return (

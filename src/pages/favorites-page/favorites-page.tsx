@@ -5,15 +5,15 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   selectOffers,
   changeFavoriteStatus,
-  selectAuthorizationStatus
 } from '../../store/main-slice';
+import { selectAuthStatus } from '../../store/auth-slice';
 import { Offer } from '../../types/offer';
 import Footer from './components/footer';
 
 export default function FavoritesPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
+  const authorizationStatus = useAppSelector(selectAuthStatus);
   const offers = useAppSelector(selectOffers);
 
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);

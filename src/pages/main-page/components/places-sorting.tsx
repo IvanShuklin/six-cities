@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../../store/hooks';
 import { SORTING_OPTIONS, SortOption } from '../../../const/const';
 import { selectSortOption, sortOptionChanged } from '../../../store/main-slice';
 
 export default function PlacesSorting() {
-  const dispatch = useDispatch();
-  const currentOption = useSelector(selectSortOption);
+  const dispatch = useAppDispatch();
+  const currentOption = useAppSelector(selectSortOption);
 
   const [isOpen, setIsOpen] = useState(false);
   const handleSortingToggle = () => setIsOpen((s) => !s);

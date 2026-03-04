@@ -2,7 +2,8 @@ import React, { useCallback } from 'react';
 import { Link, generatePath, useNavigate } from 'react-router-dom';
 import { Offer } from '../../types/offer';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { changeFavoriteStatus, selectAuthorizationStatus } from '../../store/main-slice';
+import { changeFavoriteStatus } from '../../store/main-slice';
+import { selectAuthStatus } from '../../store/auth-slice';
 import { OFFER_TYPE_LABEL, AppRoute, AuthorizationStatus } from '../../const/const';
 
 type OfferCardProps = {
@@ -14,7 +15,7 @@ function OfferCardRender ({offer, onActiveOfferChange}: OfferCardProps) {
   const ratingWidth = `${(offer.rating / 5) * 100}%`;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
+  const authorizationStatus = useAppSelector(selectAuthStatus);
 
   const bookmarkButtonClassName = `place-card__bookmark-button button ${
     offer.isFavorite ? 'place-card__bookmark-button--active' : ''
