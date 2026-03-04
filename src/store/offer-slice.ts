@@ -1,10 +1,15 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { Offer } from '../types/offer';
 import { Comment } from '../types/comment';
 import { State } from '../types/main-state';
 import { OfferState } from '../types/offer-state';
 import { RequestStatus } from '../const/const';
+import { changeFavoriteStatus } from './main-slice';
 
 const NEARBY_LIMIT = 3;
 
@@ -114,6 +119,17 @@ const offerSlice = createSlice({
       })
       .addCase(sendComment.rejected, (state) => {
         state.sendingCommentStatus = RequestStatus.Failed;
+      })
+      .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
+        const updatedOffer = action.payload;
+
+        if (state.offer?.id === updatedOffer.id) {
+          state.offer = updatedOffer;
+        }
+
+        state.nearbyOffers = state.nearbyOffers.map((offer) =>
+          offer.id === updatedOffer.id ? updatedOffer : offer
+        );
       });
   }
 });

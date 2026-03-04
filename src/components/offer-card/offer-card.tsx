@@ -1,7 +1,9 @@
 import React, { useCallback } from 'react';
-import { Link, generatePath } from 'react-router-dom';
+import { Link, generatePath, useNavigate } from 'react-router-dom';
 import { Offer } from '../../types/offer';
-import { OFFER_TYPE_LABEL, AppRoute } from '../../const/const';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { changeFavoriteStatus, selectAuthorizationStatus } from '../../store/main-slice';
+import { OFFER_TYPE_LABEL, AppRoute, AuthorizationStatus } from '../../const/const';
 
 type OfferCardProps = {
   offer: Offer;
@@ -10,10 +12,27 @@ type OfferCardProps = {
 
 function OfferCardRender ({offer, onActiveOfferChange}: OfferCardProps) {
   const ratingWidth = `${(offer.rating / 5) * 100}%`;
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
 
   const bookmarkButtonClassName = `place-card__bookmark-button button ${
     offer.isFavorite ? 'place-card__bookmark-button--active' : ''
   }`;
+
+  const handleBookmarkClick = () => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+      return;
+    }
+
+    dispatch(
+      changeFavoriteStatus({
+        offerId: offer.id,
+        status: offer.isFavorite ? 0 : 1
+      })
+    );
+  };
 
   const handleMouseEnter = useCallback(() => {
     onActiveOfferChange?.(offer.id);
@@ -57,6 +76,7 @@ function OfferCardRender ({offer, onActiveOfferChange}: OfferCardProps) {
           <button
             className={bookmarkButtonClassName}
             type="button"
+            onClick={handleBookmarkClick}
           >
             <svg
               className="place-card__bookmark-icon"

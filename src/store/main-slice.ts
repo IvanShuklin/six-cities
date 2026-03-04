@@ -1,4 +1,9 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  PayloadAction,
+  createAsyncThunk,
+  createSelector
+} from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { CITIES } from '../const/cities';
 import { MainState, State } from '../types/main-state';
@@ -36,6 +41,24 @@ export const fetchOffers = createAsyncThunk<
   }
 });
 
+export const changeFavoriteStatus = createAsyncThunk<
+  Offer,
+  { offerId: string; status: number },
+  { extra: AxiosInstance; rejectValue: string }
+>(
+  'main/changeFavoriteStatus',
+  async ({ offerId, status }, { extra: api, rejectWithValue }) => {
+    try {
+      const { data } = await api.post<Offer>(
+        `/favorite/${offerId}/${status}`
+      );
+      return data;
+    } catch {
+      return rejectWithValue('Failed to change favorite status.');
+    }
+  }
+);
+
 const mainSlice = createSlice({
   name: 'main',
   initialState,
@@ -61,8 +84,7 @@ const mainSlice = createSlice({
         (state, action: PayloadAction<Offer[]>) => {
           state.offers = action.payload;
           state.offersLoadingStatus = RequestStatus.Success;
-        }
-      )
+        })
       .addCase(fetchOffers.rejected, (state, action) => {
         state.offersLoadingStatus = RequestStatus.Failed;
         state.offersError =
@@ -76,6 +98,13 @@ const mainSlice = createSlice({
       })
       .addCase(login.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
+      })
+      .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
+        const updatedOffer = action.payload;
+
+        state.offers = state.offers.map((offer) =>
+          offer.id === updatedOffer.id ? updatedOffer : offer
+        );
       });
   },
 });
@@ -98,5 +127,10 @@ export const selectOffersError = (state: State) =>
 
 export const selectAuthorizationStatus = (state: State) =>
   state.main.authorizationStatus;
+
+export const selectFavoritesCount = createSelector(
+  [selectOffers],
+  (offers) => offers.filter((offer) => offer.isFavorite).length
+);
 
 export default mainSlice.reducer;
