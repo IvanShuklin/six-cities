@@ -93,9 +93,6 @@ export const selectSortOption = (state: State) => state.main.sortOption;
 export const selectOffersLoadingStatus = (state: State) =>
   state.main.offersLoadingStatus;
 
-export const selectIsOffersLoading = (state: State) =>
-  state.main.offersLoadingStatus === RequestStatus.Loading;
-
 export const selectOffersError = (state: State) =>
   state.main.offersError;
 

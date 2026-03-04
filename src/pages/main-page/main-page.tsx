@@ -1,25 +1,30 @@
 import { Helmet } from 'react-helmet-async';
 import { useState, useCallback } from 'react';
-import { PageTitle } from '../../const/const';
+import { PageTitle, RequestStatus } from '../../const/const';
 import NavTabs from './components/nav-tabs';
 import Map from '../../components/map/map';
 import CitiesPlacesBlock from './components/cities-places-block';
+import NoPlaces from './components/no-places';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import {
   fetchOffers,
   selectActiveCity,
-  selectIsOffersLoading,
+  selectOffersLoadingStatus,
   selectOffersError,
 } from '../../store/main-slice';
-import { selectSortedOffers, selectIsEmpty } from '../../store/main-selectors';
+import {
+  selectSortedOffers,
+  selectIsEmpty
+} from '../../store/main-selectors';
 
 export default function MainPage() {
   const dispatch = useAppDispatch();
 
   const city = useAppSelector(selectActiveCity);
   const sortedOffers = useAppSelector(selectSortedOffers);
-  const isLoading = useAppSelector(selectIsOffersLoading);
+  const status = useAppSelector(selectOffersLoadingStatus);
   const error = useAppSelector(selectOffersError);
+
   const isEmpty = useAppSelector(selectIsEmpty);
 
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
@@ -32,7 +37,7 @@ export default function MainPage() {
     setActiveOfferId(id);
   }, []);
 
-  if (error) {
+  if (status === RequestStatus.Failed && error) {
     return (
       <>
         <Helmet>
@@ -68,18 +73,20 @@ export default function MainPage() {
         <NavTabs />
 
         <div className="cities">
-          <div
-            className={`cities__places-container ${
-              isEmpty ? 'cities__places-container--empty' : ''
-            } container`}
+          <div className={`cities__places-container ${
+            isEmpty ? 'cities__places-container--empty' : ''
+          } container`}
           >
-            <CitiesPlacesBlock
-              isLoading={isLoading}
-              isEmpty={isEmpty}
-              cityName={city.name}
-              offers={sortedOffers}
-              onActiveOfferChange={handleActiveOfferChange}
-            />
+            {isEmpty ? (
+              <NoPlaces cityName={city.name} />
+            ) : (
+              <CitiesPlacesBlock
+                status={status}
+                cityName={city.name}
+                offers={sortedOffers}
+                onActiveOfferChange={handleActiveOfferChange}
+              />
+            )}
 
             <div className="cities__right-section">
               {isEmpty ? (
