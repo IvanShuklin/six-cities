@@ -1,11 +1,10 @@
 import { Helmet } from 'react-helmet-async';
+import { useEffect } from 'react';
 import { Link, generatePath, useNavigate } from 'react-router-dom';
 import { PageTitle, AppRoute, AuthorizationStatus } from '../../const/const';
+import { fetchFavorites, selectFavorites } from '../../store/favorites-slice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import {
-  selectOffers,
-  changeFavoriteStatus,
-} from '../../store/main-slice';
+import { changeFavoriteStatus } from '../../store/main-slice';
 import { selectAuthStatus } from '../../store/auth-slice';
 import { Offer } from '../../types/offer';
 import Footer from './components/footer';
@@ -14,10 +13,9 @@ export default function FavoritesPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const authorizationStatus = useAppSelector(selectAuthStatus);
-  const offers = useAppSelector(selectOffers);
 
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
-  const isFavoriteOffersEmpty = favoriteOffers.length === 0;
+  const favorites = useAppSelector(selectFavorites);
+  const isEmpty = favorites.length === 0;
 
   const handleBookmarkClick = (offerId: string) => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
@@ -31,20 +29,26 @@ export default function FavoritesPage() {
     }));
   };
 
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavorites());
+    }
+  }, [authorizationStatus, dispatch]);
+
   return (
     <>
       <Helmet>
         <title>{PageTitle.Favorites}</title>
       </Helmet>
 
-      <main className="page__main page__main--favorites">
+      <main className={`page__main page__main--favorites ${isEmpty ? 'page__main--favorites-empty' : ''}`}>
         <div className="page__favorites-container container">
-          <section className={`favorites ${isFavoriteOffersEmpty ? 'favorites--empty' : ''}`}>
+          <section className={`favorites ${isEmpty ? 'favorites--empty' : ''}`}>
             <h1 className="favorites__title">Saved listing</h1>
 
-            {!isFavoriteOffersEmpty ? (
+            {!isEmpty ? (
               <ul className="favorites__list">
-                {favoriteOffers.map((offer: Offer) => (
+                {favorites.map((offer: Offer) => (
                   <li key={offer.id} className="favorites__locations-items">
                     <div className="favorites__places">
                       <article className="favorites__card place-card">
@@ -104,7 +108,12 @@ export default function FavoritesPage() {
                 ))}
               </ul>
             ) : (
-              <p className="favorites__status">Save properties to narrow down search or plan your future trips.</p>
+              <div className="favorites__status-wrapper">
+                <b className="favorites__status">Nothing yet saved.</b>
+                <p className="favorites__status-description">
+    Save properties to narrow down search or plan your future trips.
+                </p>
+              </div>
             )}
           </section>
         </div>

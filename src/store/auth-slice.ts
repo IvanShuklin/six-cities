@@ -57,4 +57,3 @@ export const selectAuthStatus = (state: State) =>
 
 export const { logout } = authSlice.actions;
 export default authSlice.reducer;
-

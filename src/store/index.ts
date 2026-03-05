@@ -3,6 +3,7 @@ import { createAPI } from '../services/api';
 import mainReducer from './main-slice';
 import offerReducer from './offer-slice';
 import authReducer from './auth-slice';
+import favoritesReducer from './favorites-slice';
 
 export const api = createAPI();
 
@@ -11,6 +12,7 @@ export const store = configureStore({
     main: mainReducer,
     offer: offerReducer,
     auth: authReducer,
+    favorites: favoritesReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
