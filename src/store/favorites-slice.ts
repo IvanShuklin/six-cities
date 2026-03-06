@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { Offer } from '../types/offer';
 import { State } from '../types/main-state';
@@ -46,7 +46,7 @@ const favoritesSlice = createSlice({
 
       .addCase(
         fetchFavorites.fulfilled,
-        (state, action: PayloadAction<Offer[]>) => {
+        (state, action) => {
           state.favorites = action.payload;
           state.favoritesLoadingStatus = RequestStatus.Success;
         }

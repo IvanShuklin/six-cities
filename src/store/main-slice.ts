@@ -40,14 +40,15 @@ export const fetchOffers = createAsyncThunk<
 
 export const changeFavoriteStatus = createAsyncThunk<
   Offer,
-  { offerId: string; status: number },
+  { offerId: string; status: boolean },
   { extra: AxiosInstance; rejectValue: string }
 >(
   'main/changeFavoriteStatus',
   async ({ offerId, status }, { extra: api, rejectWithValue }) => {
     try {
+      const apiStatus = status ? 1 : 0;
       const { data } = await api.post<Offer>(
-        `/favorite/${offerId}/${status}`
+        `/favorite/${offerId}/${apiStatus}`
       );
       return data;
     } catch {
@@ -75,7 +76,7 @@ const mainSlice = createSlice({
       })
       .addCase(
         fetchOffers.fulfilled,
-        (state, action: PayloadAction<Offer[]>) => {
+        (state, action) => {
           state.offers = action.payload;
           state.offersLoadingStatus = RequestStatus.Success;
         })
