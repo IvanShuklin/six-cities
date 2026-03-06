@@ -71,3 +71,10 @@ export enum HeaderMode {
   Default = 'default',
   Login = 'login',
 }
+
+export enum RequestStatus {
+  Idle = 'idle',
+  Loading = 'loading',
+  Success = 'success',
+  Failed = 'failed',
+}

@@ -1,33 +1,57 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  PayloadAction,
+  createAsyncThunk,
+  createSelector
+} from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { CITIES } from '../const/cities';
 import { MainState, State } from '../types/main-state';
 import { City } from '../types/city';
 import { Offer } from '../types/offer';
-import { AuthorizationStatus, SORTING_OPTIONS, SortOption } from '../const/const';
-import { checkAuth, login } from './api-actions';
+import {
+  SORTING_OPTIONS,
+  SortOption,
+  RequestStatus,
+} from '../const/const';
 
 const initialState: MainState = {
   city: CITIES[0],
   offers: [],
   sortOption: SORTING_OPTIONS.POPULAR,
-  isOffersLoading: false,
+  offersLoadingStatus: RequestStatus.Idle,
   offersError: null,
-  authorizationStatus: AuthorizationStatus.Unknown,
 };
 
 export const fetchOffers = createAsyncThunk<
   Offer[],
   void,
   { extra: AxiosInstance; rejectValue: string }
+>('main/fetchOffers', async (_arg, { extra: api, rejectWithValue }) => {
+  try {
+    const response = await api.get<Offer[]>('/offers');
+    return response.data;
+  } catch {
+    return rejectWithValue(
+      'Failed to load offers. Check your connection to the server.'
+    );
+  }
+});
+
+export const changeFavoriteStatus = createAsyncThunk<
+  Offer,
+  { offerId: string; status: number },
+  { extra: AxiosInstance; rejectValue: string }
 >(
-  'main/fetchOffers',
-  async (_arg, { extra: api, rejectWithValue }) => {
+  'main/changeFavoriteStatus',
+  async ({ offerId, status }, { extra: api, rejectWithValue }) => {
     try {
-      const response = await api.get<Offer[]>('/offers');
-      return response.data;
-    } catch (err) {
-      return rejectWithValue('Failed to load offers. Check your connection to the server.');
+      const { data } = await api.post<Offer>(
+        `/favorite/${offerId}/${status}`
+      );
+      return data;
+    } catch {
+      return rejectWithValue('Failed to change favorite status.');
     }
   }
 );
@@ -42,44 +66,52 @@ const mainSlice = createSlice({
     sortOptionChanged(state, action: PayloadAction<SortOption>) {
       state.sortOption = action.payload;
     },
-    requireAuthorization(state, action: PayloadAction<AuthorizationStatus>) {
-      state.authorizationStatus = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchOffers.pending, (state) => {
-        state.isOffersLoading = true;
+        state.offersLoadingStatus = RequestStatus.Loading;
         state.offersError = null;
       })
-      .addCase(fetchOffers.fulfilled, (state, action: PayloadAction<Offer[]>) => {
-        state.offers = action.payload;
-        state.isOffersLoading = false;
-      })
+      .addCase(
+        fetchOffers.fulfilled,
+        (state, action: PayloadAction<Offer[]>) => {
+          state.offers = action.payload;
+          state.offersLoadingStatus = RequestStatus.Success;
+        })
       .addCase(fetchOffers.rejected, (state, action) => {
-        state.isOffersLoading = false;
-        state.offersError = (action.payload as string) ?? action.error.message ?? 'Unknown error';
+        state.offersLoadingStatus = RequestStatus.Failed;
+        state.offersError =
+          action.payload ?? action.error.message ?? 'Unknown error';
       })
-      .addCase(checkAuth.fulfilled, (state, action) => {
-        state.authorizationStatus = action.payload;
-      })
-      .addCase(login.fulfilled, (state) => {
-        state.authorizationStatus = AuthorizationStatus.Auth;
-      })
-      .addCase(login.rejected, (state) => {
-        state.authorizationStatus = AuthorizationStatus.NoAuth;
+      .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
+        const updatedOffer = action.payload;
+
+        state.offers = state.offers.map((offer) =>
+          offer.id === updatedOffer.id ? updatedOffer : offer
+        );
       });
-  }
+  },
 });
 
-export const { cityChanged, sortOptionChanged, requireAuthorization } = mainSlice.actions;
+export const {
+  cityChanged,
+  sortOptionChanged,
+} = mainSlice.actions;
 
 export const selectActiveCity = (state: State) => state.main.city;
 export const selectOffers = (state: State) => state.main.offers;
 export const selectSortOption = (state: State) => state.main.sortOption;
-export const selectOffersLoading = (state: State) => state.main.isOffersLoading;
-export const selectOffersError = (state: State) => state.main.offersError;
-export const selectAuthorizationStatus = (state: State) =>
-  state.main.authorizationStatus;
+
+export const selectOffersLoadingStatus = (state: State) =>
+  state.main.offersLoadingStatus;
+
+export const selectOffersError = (state: State) =>
+  state.main.offersError;
+
+export const selectFavoritesCount = createSelector(
+  [selectOffers],
+  (offers) => offers.filter((offer) => offer.isFavorite).length
+);
 
 export default mainSlice.reducer;

@@ -22,7 +22,7 @@ export const checkAuth = createAsyncThunk<
 );
 
 export const login = createAsyncThunk<
-  AuthorizationStatus,
+  UserData,
   AuthData,
   { extra: AxiosInstance; rejectValue: string }
 >(
@@ -36,8 +36,8 @@ export const login = createAsyncThunk<
 
       saveToken(data.token);
 
-      return AuthorizationStatus.Auth;
-    } catch (error) {
+      return data;
+    } catch {
       return rejectWithValue('Login failed');
     }
   }

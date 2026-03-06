@@ -4,12 +4,6 @@ import { Offer } from '../../types/offer';
 import { City } from '../../types/city';
 import useMap from '../../hooks/use-map';
 
-type MapProps = {
-  city: City;
-  offers: Offer[];
-  activeOfferId: string | null;
-};
-
 const URL_MARKER_DEFAULT = 'markup/img/pin.svg';
 const URL_MARKER_CURRENT = 'markup/img/pin-active.svg';
 
@@ -24,6 +18,12 @@ const activeIcon = new Icon({
   iconSize: [27, 39],
   iconAnchor: [14, 39],
 });
+
+type MapProps = {
+  city: City;
+  offers: Offer[];
+  activeOfferId: string | null;
+};
 
 export default function Map({ city, offers, activeOfferId }: MapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);

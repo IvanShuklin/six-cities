@@ -1,10 +1,11 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { sortOffers } from '../utils/sort-offers';
+import { RequestStatus } from '../const/const';
 import {
   selectActiveCity,
   selectOffers,
   selectSortOption,
-  selectOffersLoading
+  selectOffersLoadingStatus
 } from './main-slice';
 
 export const selectFilteredOffers = createSelector(
@@ -20,6 +21,7 @@ export const selectSortedOffers = createSelector(
 );
 
 export const selectIsEmpty = createSelector(
-  [selectFilteredOffers, selectOffersLoading],
-  (filteredOffers, isLoading) => !isLoading && filteredOffers.length === 0
+  [selectFilteredOffers, selectOffersLoadingStatus],
+  (filteredOffers, status) =>
+    status === RequestStatus.Success && filteredOffers.length === 0
 );

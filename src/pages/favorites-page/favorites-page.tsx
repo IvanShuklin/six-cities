@@ -1,16 +1,39 @@
 import { Helmet } from 'react-helmet-async';
-import { Link, generatePath } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { PageTitle, AppRoute } from '../../const/const';
-import Footer from './components/footer';
-import { selectOffers } from '../../store/main-slice';
+import { useEffect } from 'react';
+import { Link, generatePath, useNavigate } from 'react-router-dom';
+import { PageTitle, AppRoute, AuthorizationStatus } from '../../const/const';
+import { fetchFavorites, selectFavorites } from '../../store/favorites-slice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { changeFavoriteStatus } from '../../store/main-slice';
+import { selectAuthStatus } from '../../store/auth-slice';
 import { Offer } from '../../types/offer';
+import Footer from './components/footer';
 
 export default function FavoritesPage() {
-  const offers = useSelector(selectOffers);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const authorizationStatus = useAppSelector(selectAuthStatus);
 
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
-  const isFavoriteOffersEmpty = favoriteOffers.length === 0;
+  const favorites = useAppSelector(selectFavorites);
+  const isEmpty = favorites.length === 0;
+
+  const handleBookmarkClick = (offerId: string) => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+      return;
+    }
+
+    dispatch(changeFavoriteStatus({
+      offerId,
+      status: 0
+    }));
+  };
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavorites());
+    }
+  }, [authorizationStatus, dispatch]);
 
   return (
     <>
@@ -18,14 +41,14 @@ export default function FavoritesPage() {
         <title>{PageTitle.Favorites}</title>
       </Helmet>
 
-      <main className="page__main page__main--favorites">
+      <main className={`page__main page__main--favorites ${isEmpty ? 'page__main--favorites-empty' : ''}`}>
         <div className="page__favorites-container container">
-          <section className={`favorites ${isFavoriteOffersEmpty ? 'favorites--empty' : ''}`}>
+          <section className={`favorites ${isEmpty ? 'favorites--empty' : ''}`}>
             <h1 className="favorites__title">Saved listing</h1>
 
-            {!isFavoriteOffersEmpty ? (
+            {!isEmpty ? (
               <ul className="favorites__list">
-                {favoriteOffers.map((offer: Offer) => (
+                {favorites.map((offer: Offer) => (
                   <li key={offer.id} className="favorites__locations-items">
                     <div className="favorites__places">
                       <article className="favorites__card place-card">
@@ -54,7 +77,11 @@ export default function FavoritesPage() {
                               <span className="place-card__price-text">/&nbsp;night</span>
                             </div>
 
-                            <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+                            <button
+                              className="place-card__bookmark-button place-card__bookmark-button--active button"
+                              type="button"
+                              onClick={() => handleBookmarkClick(offer.id)}
+                            >
                               <svg className="place-card__bookmark-icon" width={18} height={19}>
                                 <use xlinkHref="#icon-bookmark" />
                               </svg>
@@ -81,7 +108,12 @@ export default function FavoritesPage() {
                 ))}
               </ul>
             ) : (
-              <p className="favorites__status">Save properties to narrow down search or plan your future trips.</p>
+              <div className="favorites__status-wrapper">
+                <b className="favorites__status">Nothing yet saved.</b>
+                <p className="favorites__status-description">
+    Save properties to narrow down search or plan your future trips.
+                </p>
+              </div>
             )}
           </section>
         </div>

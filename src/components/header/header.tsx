@@ -5,15 +5,18 @@ import {
   SignOutMenuContent,
   SignInMenuContent
 } from './menu-content';
+import { useAppSelector } from '../../store/hooks';
+import { selectUser, selectAuthStatus } from '../../store/auth-slice';
 
 type HeaderProps = {
-  authorizationStatus?: AuthorizationStatus;
   favoritesCount?: number;
 };
 
-export default function Header({ authorizationStatus, favoritesCount = 0 }: HeaderProps) {
+export default function Header({ favoritesCount = 0 }: HeaderProps) {
+  const authorizationStatus = useAppSelector(selectAuthStatus);
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
-  const userEmail = 'oliver.conner@gmail.com';
+  const user = useAppSelector(selectUser);
+  const userEmail = user?.email ?? '';
 
   return (
     <header className="header">

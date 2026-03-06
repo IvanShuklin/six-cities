@@ -1,14 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 import { useEffect } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store';
-import { AppRoute, PageTitle } from '../../const/const';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { AppRoute, PageTitle, AuthorizationStatus } from '../../const/const';
 import OffersList from '../../components/offers-list/offers-list';
 import Review from '../../components/review/review';
 import Map from '../../components/map/map';
 import { pluralize } from '../../utils/util';
-import { selectAuthorizationStatus } from '../../store/main-slice';
+import { changeFavoriteStatus } from '../../store/main-slice';
+import { selectAuthStatus } from '../../store/auth-slice';
 import {
   fetchOfferById,
   fetchNearbyOffers,
@@ -17,20 +17,39 @@ import {
   selectOffer,
   selectNearbyOffers,
   selectComments,
-  selectOfferLoading,
+  selectIsOfferLoading,
   selectOfferError
 } from '../../store/offer-slice';
 
 export default function OfferPage() {
   const { id } = useParams<{ id: string }>();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const authorizationStatus = useSelector(selectAuthorizationStatus);
-  const currentOffer = useSelector(selectOffer);
-  const nearbyOffers = useSelector(selectNearbyOffers);
-  const comments = useSelector(selectComments);
-  const isLoading = useSelector(selectOfferLoading);
-  const error = useSelector(selectOfferError);
+  const authorizationStatus = useAppSelector(selectAuthStatus);
+  const currentOffer = useAppSelector(selectOffer);
+  const nearbyOffers = useAppSelector(selectNearbyOffers);
+  const comments = useAppSelector(selectComments);
+  const isLoading = useAppSelector(selectIsOfferLoading);
+  const error = useAppSelector(selectOfferError);
+
+  const handleBookmarkClick = () => {
+    if (!currentOffer) {
+      return;
+    }
+
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+      return;
+    }
+
+    dispatch(
+      changeFavoriteStatus({
+        offerId: currentOffer.id,
+        status: currentOffer.isFavorite ? 0 : 1
+      })
+    );
+  };
 
   useEffect(() => {
     if (id) {
@@ -55,6 +74,10 @@ export default function OfferPage() {
   if (!currentOffer) {
     return null;
   }
+
+  const bookmarkButtonClassName = `offer__bookmark-button button ${
+    currentOffer.isFavorite ? 'offer__bookmark-button--active' : ''
+  }`;
 
   const offersForMap = [currentOffer, ...nearbyOffers];
 
@@ -91,7 +114,11 @@ export default function OfferPage() {
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{currentOffer.title}</h1>
 
-                <button className="offer__bookmark-button button" type="button">
+                <button
+                  className={bookmarkButtonClassName}
+                  type="button"
+                  onClick={handleBookmarkClick}
+                >
                   <svg className="offer__bookmark-icon" width={31} height={33}>
                     <use xlinkHref="#icon-bookmark" />
                   </svg>
