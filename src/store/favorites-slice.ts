@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { Offer } from '../types/offer';
 import { State } from '../types/main-state';
@@ -37,21 +37,18 @@ const favoritesSlice = createSlice({
   name: 'favorites',
   initialState,
   reducers: {},
-
   extraReducers: (builder) => {
     builder
       .addCase(fetchFavorites.pending, (state) => {
         state.favoritesLoadingStatus = RequestStatus.Loading;
       })
-
       .addCase(
         fetchFavorites.fulfilled,
-        (state, action: PayloadAction<Offer[]>) => {
+        (state, action) => {
           state.favorites = action.payload;
           state.favoritesLoadingStatus = RequestStatus.Success;
         }
       )
-
       .addCase(fetchFavorites.rejected, (state, action) => {
         state.favoritesLoadingStatus = RequestStatus.Failed;
         state.favoritesError =
@@ -59,7 +56,6 @@ const favoritesSlice = createSlice({
       })
       .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
         const updatedOffer = action.payload;
-
         if (updatedOffer.isFavorite) {
           state.favorites = [
             ...state.favorites.filter((offer) => offer.id !== updatedOffer.id),

@@ -13,7 +13,7 @@ export default function OffersList({
   className
 }: OffersListProps) {
   return(
-    <div className={className}>
+    <div className={className} data-testid='offers-list'>
       {offers.map((offer) => (
         <OfferCard
           key={offer.id}

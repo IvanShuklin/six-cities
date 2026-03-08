@@ -1,17 +1,24 @@
 import {
   createSlice,
   createAsyncThunk,
-  PayloadAction,
 } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { Offer } from '../types/offer';
 import { Comment } from '../types/comment';
 import { State } from '../types/main-state';
-import { OfferState } from '../types/offer-state';
 import { RequestStatus } from '../const/const';
 import { changeFavoriteStatus } from './main-slice';
 
 const NEARBY_LIMIT = 3;
+
+export type OfferState = {
+  offer: Offer | null;
+  nearbyOffers: Offer[];
+  comments: Comment[];
+  offerLoadingStatus: RequestStatus;
+  sendingCommentStatus: RequestStatus;
+  offerError: string | null;
+};
 
 const initialState: OfferState = {
   offer: null,
@@ -96,7 +103,7 @@ const offerSlice = createSlice({
         state.offerLoadingStatus = RequestStatus.Loading;
         state.offerError = null;
       })
-      .addCase(fetchOfferById.fulfilled, (state, action: PayloadAction<Offer>) => {
+      .addCase(fetchOfferById.fulfilled, (state, action) => {
         state.offer = action.payload;
         state.offerLoadingStatus = RequestStatus.Success;
       })
@@ -104,16 +111,16 @@ const offerSlice = createSlice({
         state.offerLoadingStatus = RequestStatus.Failed;
         state.offerError = action.payload ?? action.error.message ?? 'Unknown error';
       })
-      .addCase(fetchNearbyOffers.fulfilled, (state, action: PayloadAction<Offer[]>) => {
+      .addCase(fetchNearbyOffers.fulfilled, (state, action) => {
         state.nearbyOffers = action.payload.slice(0, NEARBY_LIMIT);
       })
-      .addCase(fetchComments.fulfilled, (state, action: PayloadAction<Comment[]>) => {
+      .addCase(fetchComments.fulfilled, (state, action) => {
         state.comments = action.payload;
       })
       .addCase(sendComment.pending, (state) => {
         state.sendingCommentStatus = RequestStatus.Loading;
       })
-      .addCase(sendComment.fulfilled, (state, action: PayloadAction<Comment>) => {
+      .addCase(sendComment.fulfilled, (state, action) => {
         state.comments = [action.payload, ...state.comments];
         state.sendingCommentStatus = RequestStatus.Success;
       })
@@ -122,11 +129,9 @@ const offerSlice = createSlice({
       })
       .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
         const updatedOffer = action.payload;
-
         if (state.offer?.id === updatedOffer.id) {
           state.offer = updatedOffer;
         }
-
         state.nearbyOffers = state.nearbyOffers.map((offer) =>
           offer.id === updatedOffer.id ? updatedOffer : offer
         );
