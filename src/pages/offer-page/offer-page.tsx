@@ -46,7 +46,7 @@ export default function OfferPage() {
     dispatch(
       changeFavoriteStatus({
         offerId: currentOffer.id,
-        status: !currentOffer.isFavorite
+        status: currentOffer.isFavorite ? 0 : 1
       })
     );
   };

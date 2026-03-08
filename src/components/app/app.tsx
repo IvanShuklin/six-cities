@@ -16,7 +16,11 @@ import PublicRoute from '../public-route/public-route';
 import { fetchOffers } from '../../store/main-slice';
 import { AppDispatch } from '../../store';
 
-export default function App() {
+interface AppProps {
+  RouterComponent?: React.ComponentType<{ children: React.ReactNode }>;
+}
+
+export default function App({ RouterComponent = BrowserRouter }: AppProps) {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -25,7 +29,7 @@ export default function App() {
 
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <RouterComponent>
         <Routes>
           <Route element={<MainLayout/>}>
             <Route path={AppRoute.Main} element={<MainPage />} />
@@ -59,7 +63,7 @@ export default function App() {
 
           <Route path={AppRoute.NotFound} element={<NotFoundPage />} />
         </Routes>
-      </BrowserRouter>
+      </RouterComponent>
     </HelmetProvider>
   );
 }
