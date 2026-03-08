@@ -129,11 +129,9 @@ const offerSlice = createSlice({
       })
       .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
         const updatedOffer = action.payload;
-
         if (state.offer?.id === updatedOffer.id) {
           state.offer = updatedOffer;
         }
-
         state.nearbyOffers = state.nearbyOffers.map((offer) =>
           offer.id === updatedOffer.id ? updatedOffer : offer
         );

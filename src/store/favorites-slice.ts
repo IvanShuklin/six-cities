@@ -37,13 +37,11 @@ const favoritesSlice = createSlice({
   name: 'favorites',
   initialState,
   reducers: {},
-
   extraReducers: (builder) => {
     builder
       .addCase(fetchFavorites.pending, (state) => {
         state.favoritesLoadingStatus = RequestStatus.Loading;
       })
-
       .addCase(
         fetchFavorites.fulfilled,
         (state, action) => {
@@ -51,7 +49,6 @@ const favoritesSlice = createSlice({
           state.favoritesLoadingStatus = RequestStatus.Success;
         }
       )
-
       .addCase(fetchFavorites.rejected, (state, action) => {
         state.favoritesLoadingStatus = RequestStatus.Failed;
         state.favoritesError =
@@ -59,7 +56,6 @@ const favoritesSlice = createSlice({
       })
       .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
         const updatedOffer = action.payload;
-
         if (updatedOffer.isFavorite) {
           state.favorites = [
             ...state.favorites.filter((offer) => offer.id !== updatedOffer.id),

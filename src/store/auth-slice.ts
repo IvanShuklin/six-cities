@@ -37,7 +37,6 @@ const authSlice = createSlice({
         state.authorizationStatus = AuthorizationStatus.NoAuth;
         state.isAuthChecked = true;
       })
-
       .addCase(login.pending, (state) => {
         state.error = null;
       })

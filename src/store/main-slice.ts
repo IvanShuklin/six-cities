@@ -40,7 +40,7 @@ export const fetchOffers = createAsyncThunk<
 
 export const changeFavoriteStatus = createAsyncThunk<
   Offer,
-  { offerId: string; status: boolean },
+  { offerId: string; status: number },
   { extra: AxiosInstance; rejectValue: string }
 >(
   'main/changeFavoriteStatus',

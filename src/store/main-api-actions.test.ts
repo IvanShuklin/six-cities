@@ -43,7 +43,7 @@ describe('main async actions', () => {
 
     const result = await changeFavoriteStatus({
       offerId: '1',
-      status: true,
+      status: 1,
     })(dispatch, () => ({}), api);
 
     expect(result.type).toBe('main/changeFavoriteStatus/fulfilled');
