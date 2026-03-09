@@ -1,11 +1,11 @@
 import { screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import App from './app';
-import { renderWithProviders } from '../../utils/test-utils';
+import { renderWithHistory } from '../../utils/test';
 
 describe('Application routing', () => {
   it('should render MainPage when user navigates to "/"', () => {
-    renderWithProviders(
+    renderWithHistory(
       <App RouterComponent={(props) =>
         <MemoryRouter initialEntries={['/']} {...props} />}
       />
@@ -15,7 +15,7 @@ describe('Application routing', () => {
   });
 
   it('should render LoginPage when user navigates to "/login"', () => {
-    renderWithProviders(
+    renderWithHistory(
       <App RouterComponent={(props) =>
         <MemoryRouter initialEntries={['/login']} {...props} />}
       />
@@ -27,7 +27,7 @@ describe('Application routing', () => {
   });
 
   it('should render NotFoundPage for unknown route', () => {
-    renderWithProviders(
+    renderWithHistory(
       <App RouterComponent={(props) =>
         <MemoryRouter initialEntries={['/some-unknown-route']} {...props} />}
       />
