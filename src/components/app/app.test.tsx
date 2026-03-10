@@ -1,38 +1,64 @@
 import { screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+import { Fragment } from 'react';
+
 import App from './app';
 import { renderWithHistory } from '../../utils/test';
+import { createComponentWithStore } from '../../utils/test-store';
+import { createMockState } from '../../utils/mock-state';
+import { AuthorizationStatus } from '../../const/const';
 
 describe('Application routing', () => {
   it('should render MainPage when user navigates to "/"', () => {
-    renderWithHistory(
-      <App RouterComponent={(props) =>
-        <MemoryRouter initialEntries={['/']} {...props} />}
-      />
+    const history = createMemoryHistory();
+    history.push('/');
+
+    const state = createMockState();
+
+    const { withStoreComponent } = createComponentWithStore(
+      <App RouterComponent={Fragment} />,
+      state
     );
+
+    renderWithHistory(withStoreComponent, { history });
 
     expect(screen.getByText('Cities')).toBeInTheDocument();
   });
 
   it('should render LoginPage when user navigates to "/login"', () => {
-    renderWithHistory(
-      <App RouterComponent={(props) =>
-        <MemoryRouter initialEntries={['/login']} {...props} />}
-      />
+    const history = createMemoryHistory();
+    history.push('/login');
+
+    const state = createMockState();
+    state.auth.authorizationStatus = AuthorizationStatus.NoAuth;
+
+    const { withStoreComponent } = createComponentWithStore(
+      <App RouterComponent={Fragment} />,
+      state
     );
 
+    renderWithHistory(withStoreComponent, { history });
+
     expect(
-      screen.getByRole('heading', { name: 'Sign in' })
+      screen.getByRole('heading', { name: /sign in/i })
     ).toBeInTheDocument();
   });
 
   it('should render NotFoundPage for unknown route', () => {
-    renderWithHistory(
-      <App RouterComponent={(props) =>
-        <MemoryRouter initialEntries={['/some-unknown-route']} {...props} />}
-      />
+    const history = createMemoryHistory();
+    history.push('/unknown');
+
+    const state = createMockState();
+
+    const { withStoreComponent } = createComponentWithStore(
+      <App RouterComponent={Fragment} />,
+      state
     );
 
-    expect(screen.getByRole('heading', { name: /404/i })).toBeInTheDocument();
+    renderWithHistory(withStoreComponent, { history });
+
+    expect(
+      screen.getByRole('heading', { name: /404/i })
+    ).toBeInTheDocument();
   });
 });

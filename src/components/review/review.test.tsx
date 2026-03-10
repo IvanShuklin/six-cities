@@ -1,15 +1,15 @@
 import { screen } from '@testing-library/react';
 import Review from './review';
 import { AuthorizationStatus } from '../../const/const';
-import { mockComment } from '../../mocks';
-import { renderWithHistory } from '../../utils/test';
+import { createMockComment } from '../../utils/mock-comment';
+import { renderWithProviders } from '../../utils/test';
 
 describe('Review component', () => {
   it('should render reviews list', () => {
-    renderWithHistory(
+    renderWithProviders(
       <Review
         authorizationStatus={AuthorizationStatus.NoAuth}
-        comments={[mockComment]}
+        comments={[createMockComment()]}
       />
     );
 
@@ -17,10 +17,10 @@ describe('Review component', () => {
   });
 
   it('should render review form for authorized user', () => {
-    renderWithHistory(
+    renderWithProviders(
       <Review
         authorizationStatus={AuthorizationStatus.Auth}
-        comments={[mockComment]}
+        comments={[createMockComment()]}
       />
     );
 

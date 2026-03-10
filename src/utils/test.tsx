@@ -1,37 +1,48 @@
 import { render, RenderResult } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { MemoryHistory, createMemoryHistory } from 'history';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
 import { ReactElement } from 'react';
-
 import HistoryRouter from '../components/history-route/history-route';
-import rootReducer from '../store/root-reducer';
-import { RootState } from '../store';
+import { createComponentWithStore } from './test-store';
+import { createMockState } from './mock-state';
+import { State } from '../types/main-state';
 
-type ExtendedRenderOptions = {
+type RenderWithHistoryOptions = {
   history?: MemoryHistory;
-  initialState?: Partial<RootState>;
 };
 
 export function renderWithHistory(
   component: ReactElement,
-  { history, initialState }: ExtendedRenderOptions = {}
+  { history }: RenderWithHistoryOptions = {}
 ): RenderResult {
   const memoryHistory = history ?? createMemoryHistory();
 
-  const mockStore = configureStore({
-    reducer: rootReducer,
-    preloadedState: initialState as RootState
-  });
-
   return render(
-    <Provider store={mockStore}>
-      <HistoryRouter history={memoryHistory}>
-        <HelmetProvider>
-          {component}
-        </HelmetProvider>
-      </HistoryRouter>
-    </Provider>
+    <HistoryRouter history={memoryHistory}>
+      <HelmetProvider>
+        {component}
+      </HelmetProvider>
+    </HistoryRouter>
   );
+}
+
+type RenderWithProvidersOptions = {
+  initialState?: State;
+  history?: MemoryHistory;
+};
+
+export function renderWithProviders(
+  component: ReactElement,
+  { initialState = createMockState(), history }: RenderWithProvidersOptions = {}
+) {
+  const { withStoreComponent, mockStore, mockAxiosAdapter } =
+    createComponentWithStore(component, initialState);
+
+  const renderResult = renderWithHistory(withStoreComponent, { history });
+
+  return {
+    ...renderResult,
+    store: mockStore,
+    mockAxiosAdapter,
+  };
 }
