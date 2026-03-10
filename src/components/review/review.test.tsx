@@ -1,39 +1,27 @@
-import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
+import { screen } from '@testing-library/react';
 import Review from './review';
 import { AuthorizationStatus } from '../../const/const';
-import { mockComment } from '../../mocks';
-import { createMockStore } from '../../utils/test-utils';
-
-const store = createMockStore();
+import { createMockComment } from '../../utils/mock-comment';
+import { renderWithProviders } from '../../utils/test';
 
 describe('Review component', () => {
   it('should render reviews list', () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <Review
-            authorizationStatus={AuthorizationStatus.NoAuth}
-            comments={[mockComment]}
-          />
-        </MemoryRouter>
-      </Provider>
+    renderWithProviders(
+      <Review
+        authorizationStatus={AuthorizationStatus.NoAuth}
+        comments={[createMockComment()]}
+      />
     );
 
     expect(screen.getByText('Very nice place')).toBeInTheDocument();
   });
 
   it('should render review form for authorized user', () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <Review
-            authorizationStatus={AuthorizationStatus.Auth}
-            comments={[mockComment]}
-          />
-        </MemoryRouter>
-      </Provider>
+    renderWithProviders(
+      <Review
+        authorizationStatus={AuthorizationStatus.Auth}
+        comments={[createMockComment()]}
+      />
     );
 
     expect(screen.getByText('Your review')).toBeInTheDocument();

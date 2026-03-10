@@ -1,10 +1,13 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import ReviewList from './review-list';
-import { mockComment } from '../../mocks';
+import { createMockComment } from '../../utils/mock-comment';
+import { renderWithProviders } from '../../utils/test';
 
 describe('ReviewList component', () => {
-  it('should render comments', () => {
-    render(<ReviewList comments={[mockComment]} />);
+  it('should render review list', () => {
+    renderWithProviders(
+      <ReviewList comments={[createMockComment()]} />
+    );
 
     expect(screen.getByText('Very nice place')).toBeInTheDocument();
     expect(screen.getByText('John')).toBeInTheDocument();
